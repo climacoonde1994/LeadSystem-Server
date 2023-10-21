@@ -1,0 +1,60 @@
+
+GET http://localhost:3000/drivers/all
+
+###
+GET http://localhost:3000/api/users/getall
+
+###
+GET http://localhost:3000/drivers/ByDriverId/1
+
+###
+POST http://localhost:3000/drivers/CreateDriver
+Content-Type: application/json
+
+{
+    "Id" : "01",
+    "Email" : "climaco.onde10@gmail.com",
+    "Password" : "onde1994",
+    "Salt" : "SALT",
+    "FirstName" : "Climaco",
+    "LastName" : "Onde",
+    "Address" : "Minglanilla",
+    "Phone" : "Jr",
+    "Verified" : "true",
+    "Otp" : "456525",
+    "Lat" : "456525",
+    "Lng" : "456525",
+    "IsAvailable" : "true"
+}
+
+###
+
+POST http://localhost:3000/api/users/CreateUser
+Content-Type: application/json
+
+{
+    "UserCode" : "CSO",
+    "UserName" : "root@cornestech.co",
+    "Password" : "P@ssw0rd",
+    "Email" : "root@cornestech.co",
+    "FullName" : "Climaco Onde Jr",
+    "FirstName" : "Climaco",
+    "LastName" : "Onde",
+    "MiddleName" : "",
+    "UserType" : "ADMIN",
+    "Suffix" : "Jr",
+    "BirthDate" : "07/10/1994",
+    "Mobile" : "0950346030",
+    "Status" : "Accept: ",
+    "Ludatetime" : "07/10/1994"
+}
+ 
+ 
+
+###
+
+DELETE http://localhost:3000/drivers/DeleteDriver/1
+
+
+###
+

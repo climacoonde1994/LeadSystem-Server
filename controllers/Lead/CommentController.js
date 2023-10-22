@@ -1,12 +1,12 @@
 
-const Specialty = require('../models/Maintenance/specialty')
+const Comment = require('../models/Lead/comment')
 module.exports = {
 
 
     getAll : async (req,res) => {
         try{
-            const Specialties = await Specialty.find()
-            res.status(200).send(Specialties)
+            const Comments = await Comment.find()
+            res.status(200).send(Comments)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -16,8 +16,8 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const Specialty = await Specialty.find({SpecialtyId: id})
-            res.status(200).send(Specialty)
+            const Comment = await Comment.find({CommentId: id})
+            res.status(200).send(Comment)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -34,21 +34,21 @@ module.exports = {
             {  
                 if(searchText == 'Default')
                 {
-                    const Allspecialties  = await Specialty.find( );
-                    const specialties = await Specialty.find().skip(skip).limit(pageSize).sort({ LastName: -1 })
+                    const Allcomments  = await Comment.find( );
+                    const comments = await Comment.find().skip(skip).limit(pageSize).sort({ LastName: -1 })
                     response = {
-                        totalSize: Allspecialties.length,
-                        response: specialties,
+                        totalSize: Allcomments.length,
+                        response: comments,
                         status: true,
                     }
                 }
                 else
                 {
-                    const Allspecialties  = await Specialty.find( {$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]} );
-                    const specialties = await Specialty.find({$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]}).skip(skip).limit(pageSize).sort({ LastName: -1 })
+                    const Allcomments  = await Comment.find( {$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]} );
+                    const comments = await Comment.find({$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]}).skip(skip).limit(pageSize).sort({ LastName: -1 })
                     response = {
-                        totalSize: Allspecialties.length,
-                        response: specialties,
+                        totalSize: Allcomments.length,
+                        response: comments,
                         status: true,
                     }
                 }
@@ -69,51 +69,55 @@ module.exports = {
         }
 
     },
-    CreateSpecialty : async (req,res) => {
+ 
+    CreateComment : async (req,res) => {
         try{
-            const specialty = new Specialty({
-                SpecialtyId : req.body.SpecialtyId,
-                Code : req.body.Code,
-                Name : req.body.Name,
-                Description : req.body.Description,
+            const comment = new Comment({
+                CommentId : req.body.CommentId,
+                LeadId : req.body.LeadId,
+                Comment : req.body.Comment,
+                Date : req.body.Date,
+                Author : req.body.Author,
+                Type : req.body.Type,
                 CreatedDate : new Date(),
                 CreatedById: 1,
-                
                 })
-                specialty = await specialty.save()
-                res.status(201).send(specialty)
+                comment = await comment.save()
+                res.status(201).send(comment)
         }
         catch(err){
             res.status(500).json({message : err.message})
         }
     },
 
-    UpdateSpecialty : async (req,res) => {
+    UpdateComment : async (req,res) => {
   
         try{
 
-            const specialty = await Specialty.updateOne({ Id:  req.body.Id} , 
-                { $set :{    SpecialtyId : req.body.SpecialtyId,
-                            Code : req.body.Code,
-                            Name : req.body.Name,
-                            Description : req.body.Description,
+            const comment = await Comment.updateOne({ Id:  req.body.Id} , 
+                { $set :{    CommentId : req.body.CommentId,
+                            LeadId : req.body.LeadId,
+                            Comment : req.body.Comment,
+                            Date : req.body.Date,
+                            Author : req.body.Author,
+                            Type : req.body.Type,
                             UpdatedDate : new Date(),
                             UpdatedById: 1
                         }
                 } )
             
               
-                res.status(201).send(specialty)
+                res.status(201).send(comment)
                
         }
         catch(err){
             res.status(500).json({message : err.message})
         }
     },
-    DeleteSpecialty : async (req,res) => {
+    DeleteComment : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await Specialty.deleteOne({SpecialtyId:id})
+            const response = await Comment.deleteOne({CommentId:id})
             res.status(201).send(response)
         }
         catch(err){

@@ -1,12 +1,12 @@
 
-const Specialty = require('../models/Maintenance/specialty')
+const Department = require('../models/Maintenance/department')
 module.exports = {
 
 
     getAll : async (req,res) => {
         try{
-            const Specialties = await Specialty.find()
-            res.status(200).send(Specialties)
+            const Departments = await Department.find()
+            res.status(200).send(Departments)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -16,8 +16,8 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const Specialty = await Specialty.find({SpecialtyId: id})
-            res.status(200).send(Specialty)
+            const Department = await Department.find({DepartmentId: id})
+            res.status(200).send(Department)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -34,21 +34,21 @@ module.exports = {
             {  
                 if(searchText == 'Default')
                 {
-                    const Allspecialties  = await Specialty.find( );
-                    const specialties = await Specialty.find().skip(skip).limit(pageSize).sort({ LastName: -1 })
+                    const Alldepartments  = await Department.find( );
+                    const departments = await Department.find().skip(skip).limit(pageSize).sort({ LastName: -1 })
                     response = {
-                        totalSize: Allspecialties.length,
-                        response: specialties,
+                        totalSize: Alldepartments.length,
+                        response: departments,
                         status: true,
                     }
                 }
                 else
                 {
-                    const Allspecialties  = await Specialty.find( {$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]} );
-                    const specialties = await Specialty.find({$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]}).skip(skip).limit(pageSize).sort({ LastName: -1 })
+                    const Alldepartments  = await Department.find( {$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]} );
+                    const departments = await Department.find({$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]}).skip(skip).limit(pageSize).sort({ LastName: -1 })
                     response = {
-                        totalSize: Allspecialties.length,
-                        response: specialties,
+                        totalSize: Alldepartments.length,
+                        response: departments,
                         status: true,
                     }
                 }
@@ -69,10 +69,10 @@ module.exports = {
         }
 
     },
-    CreateSpecialty : async (req,res) => {
+    CreateDepartment : async (req,res) => {
         try{
-            const specialty = new Specialty({
-                SpecialtyId : req.body.SpecialtyId,
+            const department = new Department({
+                DepartmentId : req.body.DepartmentId,
                 Code : req.body.Code,
                 Name : req.body.Name,
                 Description : req.body.Description,
@@ -80,20 +80,20 @@ module.exports = {
                 CreatedById: 1,
                 
                 })
-                specialty = await specialty.save()
-                res.status(201).send(specialty)
+                department = await department.save()
+                res.status(201).send(department)
         }
         catch(err){
             res.status(500).json({message : err.message})
         }
     },
 
-    UpdateSpecialty : async (req,res) => {
+    UpdateDepartment : async (req,res) => {
   
         try{
 
-            const specialty = await Specialty.updateOne({ Id:  req.body.Id} , 
-                { $set :{    SpecialtyId : req.body.SpecialtyId,
+            const department = await Department.updateOne({ Id:  req.body.Id} , 
+                { $set :{    DepartmentId : req.body.DepartmentId,
                             Code : req.body.Code,
                             Name : req.body.Name,
                             Description : req.body.Description,
@@ -103,17 +103,17 @@ module.exports = {
                 } )
             
               
-                res.status(201).send(specialty)
+                res.status(201).send(department)
                
         }
         catch(err){
             res.status(500).json({message : err.message})
         }
     },
-    DeleteSpecialty : async (req,res) => {
+    DeleteDepartment : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await Specialty.deleteOne({SpecialtyId:id})
+            const response = await Department.deleteOne({DepartmentId:id})
             res.status(201).send(response)
         }
         catch(err){

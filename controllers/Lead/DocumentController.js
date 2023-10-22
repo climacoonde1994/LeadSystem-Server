@@ -1,12 +1,12 @@
 
-const Specialty = require('../models/Maintenance/specialty')
+const Document = require('../models/Lead/document')
 module.exports = {
 
 
     getAll : async (req,res) => {
         try{
-            const Specialties = await Specialty.find()
-            res.status(200).send(Specialties)
+            const Documents = await Document.find()
+            res.status(200).send(Documents)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -16,8 +16,8 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const Specialty = await Specialty.find({SpecialtyId: id})
-            res.status(200).send(Specialty)
+            const Document = await Document.find({DocumentId: id})
+            res.status(200).send(Document)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -34,21 +34,21 @@ module.exports = {
             {  
                 if(searchText == 'Default')
                 {
-                    const Allspecialties  = await Specialty.find( );
-                    const specialties = await Specialty.find().skip(skip).limit(pageSize).sort({ LastName: -1 })
+                    const Alldocuments  = await Document.find( );
+                    const documents = await Document.find().skip(skip).limit(pageSize).sort({ LastName: -1 })
                     response = {
-                        totalSize: Allspecialties.length,
-                        response: specialties,
+                        totalSize: Alldocuments.length,
+                        response: documents,
                         status: true,
                     }
                 }
                 else
                 {
-                    const Allspecialties  = await Specialty.find( {$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]} );
-                    const specialties = await Specialty.find({$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]}).skip(skip).limit(pageSize).sort({ LastName: -1 })
+                    const Alldocuments  = await Document.find( {$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]} );
+                    const documents = await Document.find({$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]}).skip(skip).limit(pageSize).sort({ LastName: -1 })
                     response = {
-                        totalSize: Allspecialties.length,
-                        response: specialties,
+                        totalSize: Alldocuments.length,
+                        response: documents,
                         status: true,
                     }
                 }
@@ -69,51 +69,57 @@ module.exports = {
         }
 
     },
-    CreateSpecialty : async (req,res) => {
+ 
+    CreateDocument : async (req,res) => {
         try{
-            const specialty = new Specialty({
-                SpecialtyId : req.body.SpecialtyId,
-                Code : req.body.Code,
+            const document = new Document({
+                DocumentId : req.body.DocumentId,
+                LeadId : req.body.LeadId,
                 Name : req.body.Name,
-                Description : req.body.Description,
+                Content : req.body.Content,
+                Date : req.body.Date,
+                Author : req.body.Author,
+                Type : req.body.Type,
                 CreatedDate : new Date(),
                 CreatedById: 1,
-                
                 })
-                specialty = await specialty.save()
-                res.status(201).send(specialty)
+                document = await document.save()
+                res.status(201).send(document)
         }
         catch(err){
             res.status(500).json({message : err.message})
         }
     },
 
-    UpdateSpecialty : async (req,res) => {
+    UpdateDocument : async (req,res) => {
   
         try{
 
-            const specialty = await Specialty.updateOne({ Id:  req.body.Id} , 
-                { $set :{    SpecialtyId : req.body.SpecialtyId,
-                            Code : req.body.Code,
+            const document = await Document.updateOne({ Id:  req.body.Id} , 
+                { $set :{    DocumentId : req.body.DocumentId,
+                            LeadId : req.body.LeadId,
                             Name : req.body.Name,
-                            Description : req.body.Description,
+                            Content : req.body.Content,
+                            Date : req.body.Date,
+                            Author : req.body.Author,
+                            Type : req.body.Type,
                             UpdatedDate : new Date(),
                             UpdatedById: 1
                         }
                 } )
             
               
-                res.status(201).send(specialty)
+                res.status(201).send(document)
                
         }
         catch(err){
             res.status(500).json({message : err.message})
         }
     },
-    DeleteSpecialty : async (req,res) => {
+    DeleteDocument : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await Specialty.deleteOne({SpecialtyId:id})
+            const response = await Document.deleteOne({DocumentId:id})
             res.status(201).send(response)
         }
         catch(err){

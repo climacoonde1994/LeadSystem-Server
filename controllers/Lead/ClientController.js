@@ -1,12 +1,12 @@
 
-const Specialty = require('../models/Maintenance/specialty')
+const Client = require('../models/Lead/client')
 module.exports = {
 
 
     getAll : async (req,res) => {
         try{
-            const Specialties = await Specialty.find()
-            res.status(200).send(Specialties)
+            const Clients = await Client.find()
+            res.status(200).send(Clients)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -16,8 +16,8 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const Specialty = await Specialty.find({SpecialtyId: id})
-            res.status(200).send(Specialty)
+            const Client = await Client.find({ClientId: id})
+            res.status(200).send(Client)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -34,21 +34,21 @@ module.exports = {
             {  
                 if(searchText == 'Default')
                 {
-                    const Allspecialties  = await Specialty.find( );
-                    const specialties = await Specialty.find().skip(skip).limit(pageSize).sort({ LastName: -1 })
+                    const Allclients  = await Client.find( );
+                    const clients = await Client.find().skip(skip).limit(pageSize).sort({ LastName: -1 })
                     response = {
-                        totalSize: Allspecialties.length,
-                        response: specialties,
+                        totalSize: Allclients.length,
+                        response: clients,
                         status: true,
                     }
                 }
                 else
                 {
-                    const Allspecialties  = await Specialty.find( {$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]} );
-                    const specialties = await Specialty.find({$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]}).skip(skip).limit(pageSize).sort({ LastName: -1 })
+                    const Allclients  = await Client.find( {$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]} );
+                    const clients = await Client.find({$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]}).skip(skip).limit(pageSize).sort({ LastName: -1 })
                     response = {
-                        totalSize: Allspecialties.length,
-                        response: specialties,
+                        totalSize: Allclients.length,
+                        response: clients,
                         status: true,
                     }
                 }
@@ -69,51 +69,70 @@ module.exports = {
         }
 
     },
-    CreateSpecialty : async (req,res) => {
+
+ 
+    GMTOffset: {type: Number},
+    CreateClient : async (req,res) => {
         try{
-            const specialty = new Specialty({
-                SpecialtyId : req.body.SpecialtyId,
+            const client = new Client({
+                ClientId : req.body.ClientId,
                 Code : req.body.Code,
                 Name : req.body.Name,
                 Description : req.body.Description,
+                Adress1 : req.body.Adress1,
+                Adress2 : req.body.Adress2,
+                CountryId : req.body.CountryId,
+                CityStateId : req.body.CityStateId,
+                Phone : req.body.Phone,
+                FAX : req.body.FAX,
+                URL : req.body.URL,
+                GMTOffset : req.body.GMTOffset,
                 CreatedDate : new Date(),
                 CreatedById: 1,
                 
                 })
-                specialty = await specialty.save()
-                res.status(201).send(specialty)
+                client = await client.save()
+                res.status(201).send(client)
         }
         catch(err){
             res.status(500).json({message : err.message})
         }
     },
 
-    UpdateSpecialty : async (req,res) => {
+    UpdateClient : async (req,res) => {
   
         try{
 
-            const specialty = await Specialty.updateOne({ Id:  req.body.Id} , 
-                { $set :{    SpecialtyId : req.body.SpecialtyId,
+            const client = await Client.updateOne({ Id:  req.body.Id} , 
+                { $set :{    ClientId : req.body.ClientId,
                             Code : req.body.Code,
                             Name : req.body.Name,
                             Description : req.body.Description,
+                            Adress1 : req.body.Adress1,
+                            Adress2 : req.body.Adress2,
+                            CountryId : req.body.CountryId,
+                            CityStateId : req.body.CityStateId,
+                            Phone : req.body.Phone,
+                            FAX : req.body.FAX,
+                            URL : req.body.URL,
+                            GMTOffset : req.body.GMTOffset,
                             UpdatedDate : new Date(),
                             UpdatedById: 1
                         }
                 } )
             
               
-                res.status(201).send(specialty)
+                res.status(201).send(client)
                
         }
         catch(err){
             res.status(500).json({message : err.message})
         }
     },
-    DeleteSpecialty : async (req,res) => {
+    DeleteClient : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await Specialty.deleteOne({SpecialtyId:id})
+            const response = await Client.deleteOne({ClientId:id})
             res.status(201).send(response)
         }
         catch(err){

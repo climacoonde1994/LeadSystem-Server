@@ -22,32 +22,47 @@ db.once('open',() => console.log('connected to db'))
 app.use(cors({ origin: true }))
 app.use(express.json())
 
+//accounty routes
 const usersRoute = require('./routes/users')
-const dtrsRoute = require('./routes/dtrs') 
-const notificationRoute = require('./routes/notifications')
-const uploadsRoute = require('./routes/uploads')
-const filesRoute = require('./routes/files')
 const authenticationRoute = require('./routes/authentication')
 
-const customerRoute = require('./routes/customers')
-const driverRoute = require('./routes/drivers')
-const foodRoute = require('./routes/foods')
-const orderRoute = require('./routes/orders')
-const transactionRoute = require('./routes/transactions')
-const vendorRoute = require('./routes/transactions')
+//lead routes
+const clientRoute = require('./routes/lead/clientroute')
+const commentRoute = require('./routes/lead/commentroute')
+const cutpasteRoute = require('./routes/lead/cutpasteroute')
+const documentRoute = require('./routes/lead/documentroute')
+const leadcontactRoute = require('./routes/lead/leadcontactroute')
+const leadheaderRoute = require('./routes/lead/leadheaderroute')
+const proposalRoute = require('./routes/lead/proposalroute')
 
-app.use('/api/users' , usersRoute) 
-app.use('/api/dtrs' , dtrsRoute) 
+//maintenance routes
+const citystateRoute = require('./routes/maintenance/citystateroute')
+const countryRoute = require('./routes/maintenance/countryroute')
+const departmentRoute = require('./routes/maintenance/departmentroute')
+const sourceRoute = require('./routes/maintenance/sourceroute')
+const specialtyRoute = require('./routes/maintenance/specialtyroute')
+const systemtypeRoute = require('./routes/maintenance/sourceroute')
+
+
+//maintenance end points
+app.use('/api/citystate' , citystateRoute) 
+app.use('/api/country' , countryRoute)
+app.use('/api/department', departmentRoute)
+app.use('/api/source', sourceRoute)
+app.use('/api/specialty', specialtyRoute)
+app.use('/api/systemtype', systemtypeRoute)
+
+//lead end points
+app.use('/api/client' , clientRoute) 
+app.use('/api/comment' , commentRoute)
+app.use('/api/cutpaste', cutpasteRoute)
+app.use('/api/document', documentRoute)
+app.use('/api/leadcontact', leadcontactRoute)
+app.use('/api/leadheader', leadheaderRoute)
+app.use('/api/proposal', proposalRoute)
+ 
+app.use('/api/user' , usersRoute) 
 app.use('/api/authentication' , authenticationRoute)
-app.use('/api/uploads', uploadsRoute)
-app.use('/api/files', filesRoute)
-app.use('/api/notifications', notificationRoute)
-app.use('/api/customers', customerRoute)
-app.use('/api/drivers', driverRoute)
-app.use('/api/foods', foodRoute)
-app.use('/api/orders', orderRoute)
-app.use('/api/transactions', transactionRoute)
-app.use('/api/vendors', vendorRoute)
 
 app.listen(3000  , ()=> console.log("server is on"))
 app.use(express.static(__dirname + "/routes/uploads"));

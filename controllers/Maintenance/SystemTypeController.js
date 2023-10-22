@@ -1,12 +1,12 @@
 
-const Specialty = require('../models/Maintenance/specialty')
+const SystemType = require('../models/Maintenance/systemtype')
 module.exports = {
 
 
     getAll : async (req,res) => {
         try{
-            const Specialties = await Specialty.find()
-            res.status(200).send(Specialties)
+            const SystemTypes = await SystemType.find()
+            res.status(200).send(SystemTypes)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -16,8 +16,8 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const Specialty = await Specialty.find({SpecialtyId: id})
-            res.status(200).send(Specialty)
+            const SystemType = await SystemType.find({SystemTypeId: id})
+            res.status(200).send(SystemType)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -34,21 +34,21 @@ module.exports = {
             {  
                 if(searchText == 'Default')
                 {
-                    const Allspecialties  = await Specialty.find( );
-                    const specialties = await Specialty.find().skip(skip).limit(pageSize).sort({ LastName: -1 })
+                    const Allsystemtypes  = await SystemType.find( );
+                    const systemtypes = await SystemType.find().skip(skip).limit(pageSize).sort({ LastName: -1 })
                     response = {
-                        totalSize: Allspecialties.length,
-                        response: specialties,
+                        totalSize: Allsystemtypes.length,
+                        response: systemtypes,
                         status: true,
                     }
                 }
                 else
                 {
-                    const Allspecialties  = await Specialty.find( {$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]} );
-                    const specialties = await Specialty.find({$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]}).skip(skip).limit(pageSize).sort({ LastName: -1 })
+                    const Allsystemtypes  = await SystemType.find( {$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]} );
+                    const systemtypes = await SystemType.find({$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]}).skip(skip).limit(pageSize).sort({ LastName: -1 })
                     response = {
-                        totalSize: Allspecialties.length,
-                        response: specialties,
+                        totalSize: Allsystemtypes.length,
+                        response: systemtypes,
                         status: true,
                     }
                 }
@@ -69,10 +69,10 @@ module.exports = {
         }
 
     },
-    CreateSpecialty : async (req,res) => {
+    CreateSystemType : async (req,res) => {
         try{
-            const specialty = new Specialty({
-                SpecialtyId : req.body.SpecialtyId,
+            const systemtype = new SystemType({
+                SystemTypeId : req.body.SystemTypeId,
                 Code : req.body.Code,
                 Name : req.body.Name,
                 Description : req.body.Description,
@@ -80,20 +80,20 @@ module.exports = {
                 CreatedById: 1,
                 
                 })
-                specialty = await specialty.save()
-                res.status(201).send(specialty)
+                systemtype = await systemtype.save()
+                res.status(201).send(systemtype)
         }
         catch(err){
             res.status(500).json({message : err.message})
         }
     },
 
-    UpdateSpecialty : async (req,res) => {
+    UpdateSystemType : async (req,res) => {
   
         try{
 
-            const specialty = await Specialty.updateOne({ Id:  req.body.Id} , 
-                { $set :{    SpecialtyId : req.body.SpecialtyId,
+            const systemtype = await SystemType.updateOne({ Id:  req.body.Id} , 
+                { $set :{    SystemTypeId : req.body.SystemTypeId,
                             Code : req.body.Code,
                             Name : req.body.Name,
                             Description : req.body.Description,
@@ -103,17 +103,17 @@ module.exports = {
                 } )
             
               
-                res.status(201).send(specialty)
+                res.status(201).send(systemtype)
                
         }
         catch(err){
             res.status(500).json({message : err.message})
         }
     },
-    DeleteSpecialty : async (req,res) => {
+    DeleteSystemType : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await Specialty.deleteOne({SpecialtyId:id})
+            const response = await SystemType.deleteOne({SystemTypeId:id})
             res.status(201).send(response)
         }
         catch(err){

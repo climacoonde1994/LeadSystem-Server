@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const CutPasteSchema = new mongoose.Schema({
-    CommentId : {type: Number, required: true},
+    CutPasteId : {type: Number, required: true},
     LeadId: {type: String, required: true},
     Notes:  {type: String, required: true},
     Date:  {type: Date},
@@ -13,6 +13,6 @@ const CutPasteSchema = new mongoose.Schema({
     UpdatedById: {type: Number}
     });
 
-module.exports = mongoose.model('cutpaste.js',CutPaste.jsSchema)
+module.exports = mongoose.model('cutpaste',CutPaste.jsSchema)
  
  

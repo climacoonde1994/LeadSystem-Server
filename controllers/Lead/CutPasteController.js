@@ -1,12 +1,12 @@
 
-const Specialty = require('../models/Maintenance/specialty')
+const CutPaste = require('../models/Lead/cutpaste')
 module.exports = {
 
 
     getAll : async (req,res) => {
         try{
-            const Specialties = await Specialty.find()
-            res.status(200).send(Specialties)
+            const CutPastes = await CutPaste.find()
+            res.status(200).send(CutPastes)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -16,8 +16,8 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const Specialty = await Specialty.find({SpecialtyId: id})
-            res.status(200).send(Specialty)
+            const CutPaste = await CutPaste.find({CutPasteId: id})
+            res.status(200).send(CutPaste)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -34,21 +34,21 @@ module.exports = {
             {  
                 if(searchText == 'Default')
                 {
-                    const Allspecialties  = await Specialty.find( );
-                    const specialties = await Specialty.find().skip(skip).limit(pageSize).sort({ LastName: -1 })
+                    const Allcutpastes  = await CutPaste.find( );
+                    const cutpastes = await CutPaste.find().skip(skip).limit(pageSize).sort({ LastName: -1 })
                     response = {
-                        totalSize: Allspecialties.length,
-                        response: specialties,
+                        totalSize: Allcutpastes.length,
+                        response: cutpastes,
                         status: true,
                     }
                 }
                 else
                 {
-                    const Allspecialties  = await Specialty.find( {$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]} );
-                    const specialties = await Specialty.find({$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]}).skip(skip).limit(pageSize).sort({ LastName: -1 })
+                    const Allcutpastes  = await CutPaste.find( {$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]} );
+                    const cutpastes = await CutPaste.find({$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]}).skip(skip).limit(pageSize).sort({ LastName: -1 })
                     response = {
-                        totalSize: Allspecialties.length,
-                        response: specialties,
+                        totalSize: Allcutpastes.length,
+                        response: cutpastes,
                         status: true,
                     }
                 }
@@ -69,51 +69,55 @@ module.exports = {
         }
 
     },
-    CreateSpecialty : async (req,res) => {
+ 
+    CreateCutPaste : async (req,res) => {
         try{
-            const specialty = new Specialty({
-                SpecialtyId : req.body.SpecialtyId,
-                Code : req.body.Code,
-                Name : req.body.Name,
-                Description : req.body.Description,
+            const cutpaste = new CutPaste({
+                CutPasteId : req.body.CutPasteId,
+                LeadId : req.body.LeadId,
+                Notes : req.body.CutPaste,
+                Date : req.body.Date,
+                Author : req.body.Author,
+                Type : req.body.Type,
                 CreatedDate : new Date(),
                 CreatedById: 1,
-                
                 })
-                specialty = await specialty.save()
-                res.status(201).send(specialty)
+                cutpaste = await cutpaste.save()
+                res.status(201).send(cutpaste)
         }
         catch(err){
             res.status(500).json({message : err.message})
         }
     },
 
-    UpdateSpecialty : async (req,res) => {
+    UpdateCutPaste : async (req,res) => {
   
         try{
 
-            const specialty = await Specialty.updateOne({ Id:  req.body.Id} , 
-                { $set :{    SpecialtyId : req.body.SpecialtyId,
-                            Code : req.body.Code,
-                            Name : req.body.Name,
-                            Description : req.body.Description,
+            const cutpaste = await CutPaste.updateOne({ Id:  req.body.Id} , 
+                { $set :{    CutPasteId : req.body.CutPasteId,
+                            LeadId : req.body.LeadId,
+                            Notes : req.body.CutPaste,
+                            Date : req.body.Date,
+                            Author : req.body.Author,
+                            Type : req.body.Type,
                             UpdatedDate : new Date(),
                             UpdatedById: 1
                         }
                 } )
             
               
-                res.status(201).send(specialty)
+                res.status(201).send(cutpaste)
                
         }
         catch(err){
             res.status(500).json({message : err.message})
         }
     },
-    DeleteSpecialty : async (req,res) => {
+    DeleteCutPaste : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await Specialty.deleteOne({SpecialtyId:id})
+            const response = await CutPaste.deleteOne({CutPasteId:id})
             res.status(201).send(response)
         }
         catch(err){

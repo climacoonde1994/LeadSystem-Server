@@ -1,12 +1,12 @@
 
-const Specialty = require('../models/Maintenance/specialty')
+const CityState = require('../models/Maintenance/citystate')
 module.exports = {
 
 
     getAll : async (req,res) => {
         try{
-            const Specialties = await Specialty.find()
-            res.status(200).send(Specialties)
+            const CityStates = await CityState.find()
+            res.status(200).send(CityStates)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -16,8 +16,8 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const Specialty = await Specialty.find({SpecialtyId: id})
-            res.status(200).send(Specialty)
+            const CityState = await CityState.find({CityStateId: id})
+            res.status(200).send(CityState)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -34,21 +34,21 @@ module.exports = {
             {  
                 if(searchText == 'Default')
                 {
-                    const Allspecialties  = await Specialty.find( );
-                    const specialties = await Specialty.find().skip(skip).limit(pageSize).sort({ LastName: -1 })
+                    const Allcitystates  = await CityState.find( );
+                    const citystates = await CityState.find().skip(skip).limit(pageSize).sort({ LastName: -1 })
                     response = {
-                        totalSize: Allspecialties.length,
-                        response: specialties,
+                        totalSize: Allcitystates.length,
+                        response: citystates,
                         status: true,
                     }
                 }
                 else
                 {
-                    const Allspecialties  = await Specialty.find( {$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]} );
-                    const specialties = await Specialty.find({$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]}).skip(skip).limit(pageSize).sort({ LastName: -1 })
+                    const Allcitystates  = await CityState.find( {$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]} );
+                    const citystates = await CityState.find({$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]}).skip(skip).limit(pageSize).sort({ LastName: -1 })
                     response = {
-                        totalSize: Allspecialties.length,
-                        response: specialties,
+                        totalSize: Allcitystates.length,
+                        response: citystates,
                         status: true,
                     }
                 }
@@ -69,10 +69,11 @@ module.exports = {
         }
 
     },
-    CreateSpecialty : async (req,res) => {
+    CreateCityState : async (req,res) => {
         try{
-            const specialty = new Specialty({
-                SpecialtyId : req.body.SpecialtyId,
+            const citystate = new CityState({
+                CityStateId : req.body.CityStateId,
+                CountryId : req.body.CountryId,
                 Code : req.body.Code,
                 Name : req.body.Name,
                 Description : req.body.Description,
@@ -80,20 +81,21 @@ module.exports = {
                 CreatedById: 1,
                 
                 })
-                specialty = await specialty.save()
-                res.status(201).send(specialty)
+                citystate = await citystate.save()
+                res.status(201).send(citystate)
         }
         catch(err){
             res.status(500).json({message : err.message})
         }
     },
 
-    UpdateSpecialty : async (req,res) => {
+    UpdateCityState : async (req,res) => {
   
         try{
 
-            const specialty = await Specialty.updateOne({ Id:  req.body.Id} , 
-                { $set :{    SpecialtyId : req.body.SpecialtyId,
+            const citystate = await CityState.updateOne({ Id:  req.body.Id} , 
+                { $set :{   CityStateId : req.body.CityStateId,
+                            CountryId : req.body.CountryId,
                             Code : req.body.Code,
                             Name : req.body.Name,
                             Description : req.body.Description,
@@ -103,17 +105,17 @@ module.exports = {
                 } )
             
               
-                res.status(201).send(specialty)
+                res.status(201).send(citystate)
                
         }
         catch(err){
             res.status(500).json({message : err.message})
         }
     },
-    DeleteSpecialty : async (req,res) => {
+    DeleteCityState : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await Specialty.deleteOne({SpecialtyId:id})
+            const response = await CityState.deleteOne({CityStateId:id})
             res.status(201).send(response)
         }
         catch(err){

@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const ProposalSchema = new mongoose.Schema({
     ProposalId : {type: Number, required: true},
     LeadId: {type: String, required: true},
-    Comment:  {type: String, required: true},
+    ProposalRemarks:  {type: String, required: true},
     Date:  {type: Date},
     Author  :{type: Number},
     Type  :{type: String},

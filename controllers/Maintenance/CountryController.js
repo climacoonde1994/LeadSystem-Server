@@ -1,5 +1,5 @@
 
-const Country = require('../models/Maintenance/country')
+const Country = require('../../models/Maintenance/country')
 module.exports = {
 
 
@@ -71,14 +71,16 @@ module.exports = {
     },
     CreateCountry : async (req,res) => {
         try{
-            const country = new Country({
-                CountryId : req.body.CountryId,
-                Code : req.body.Code,
-                Name : req.body.Name,
-                Description : req.body.Description,
-                CreatedDate : new Date(),
-                CreatedById: 1,
-                
+            var country = new Country({
+                    CountryId : req.body.CountryId,
+                    Code : req.body.Code,
+                    Name : req.body.Name,
+                    Description : req.body.Description,
+                    Enabled : true,
+                    Default : false,
+                    Description : req.body.Description,
+                    CreatedDate : new Date(),
+                    CreatedById: 1,
                 })
                 country = await country.save()
                 res.status(201).send(country)
@@ -92,8 +94,8 @@ module.exports = {
   
         try{
 
-            const country = await Country.updateOne({ Id:  req.body.Id} , 
-                { $set :{    CountryId : req.body.CountryId,
+            const country = await Country.updateOne({ _id:  req.body.Id} , 
+                { $set :{   CountryId : req.body.CountryId,
                             Code : req.body.Code,
                             Name : req.body.Name,
                             Description : req.body.Description,
@@ -113,13 +115,39 @@ module.exports = {
     DeleteCountry : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await Country.deleteOne({CountryId:id})
+            const response = await Country.deleteOne({_id:  req.params.id})
             res.status(201).send(response)
         }
         catch(err){
             res.status(400).json({message : err.message})
         }
          
+    },
+
+    EnableCountry : async (req,res) => {
+        try 
+        {   
+            id = req.params.id
+            enable = req.params.enable
+            const country = await Country.updateOne({ _id:  id} ,   { $set :{   Enabled :  enable }} )
+            res.status(201).send(country)
+        }
+        catch(err){
+            res.status(400).json({message : err.message})
+        }
+    },
+
+    DefaultCountry : async (req,res) => {
+        try 
+        {   id = req.params.id
+            enable = req.params.enable
+            const allcountry = await Country.updateMany({ $set :{ Default :  false }} )
+            const country = await Country.updateOne({ _id: id} ,  { $set :{   Default :  enable }} )
+            res.status(201).send(country)
+        }
+        catch(err){
+            res.status(400).json({message : err.message})
+        }
     },
      
 }

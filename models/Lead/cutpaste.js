@@ -13,6 +13,6 @@ const CutPasteSchema = new mongoose.Schema({
     UpdatedById: {type: Number}
     });
 
-module.exports = mongoose.model('cutpaste',CutPaste.jsSchema)
+module.exports = mongoose.model('cutpaste',CutPasteSchema)
  
  

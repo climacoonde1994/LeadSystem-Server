@@ -1,5 +1,5 @@
 
-const Comment = require('../models/Lead/comment')
+const Comment = require('../../models/Lead/comment')
 module.exports = {
 
 

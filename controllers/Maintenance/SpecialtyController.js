@@ -1,5 +1,5 @@
 
-const Specialty = require('../models/Maintenance/specialty')
+const Specialty = require('../../models/Maintenance/specialty')
 module.exports = {
 
 
@@ -71,14 +71,16 @@ module.exports = {
     },
     CreateSpecialty : async (req,res) => {
         try{
-            const specialty = new Specialty({
-                SpecialtyId : req.body.SpecialtyId,
-                Code : req.body.Code,
-                Name : req.body.Name,
-                Description : req.body.Description,
-                CreatedDate : new Date(),
-                CreatedById: 1,
-                
+            var specialty = new Specialty({
+                    SpecialtyId : req.body.SpecialtyId,
+                    Code : req.body.Code,
+                    Name : req.body.Name,
+                    Description : req.body.Description,
+                    Enabled : true,
+                    Default : false,
+                    Description : req.body.Description,
+                    CreatedDate : new Date(),
+                    CreatedById: 1,
                 })
                 specialty = await specialty.save()
                 res.status(201).send(specialty)
@@ -92,8 +94,8 @@ module.exports = {
   
         try{
 
-            const specialty = await Specialty.updateOne({ Id:  req.body.Id} , 
-                { $set :{    SpecialtyId : req.body.SpecialtyId,
+            const specialty = await Specialty.updateOne({ _id:  req.body.Id} , 
+                { $set :{   SpecialtyId : req.body.SpecialtyId,
                             Code : req.body.Code,
                             Name : req.body.Name,
                             Description : req.body.Description,
@@ -113,13 +115,39 @@ module.exports = {
     DeleteSpecialty : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await Specialty.deleteOne({SpecialtyId:id})
+            const response = await Specialty.deleteOne({_id:  req.params.id})
             res.status(201).send(response)
         }
         catch(err){
             res.status(400).json({message : err.message})
         }
          
+    },
+
+    EnableSpecialty : async (req,res) => {
+        try 
+        {   
+            id = req.params.id
+            enable = req.params.enable
+            const specialty = await Specialty.updateOne({ _id:  id} ,   { $set :{   Enabled :  enable }} )
+            res.status(201).send(specialty)
+        }
+        catch(err){
+            res.status(400).json({message : err.message})
+        }
+    },
+
+    DefaultSpecialty : async (req,res) => {
+        try 
+        {   id = req.params.id
+            enable = req.params.enable
+            const allspecialty = await Specialty.updateMany({ $set :{ Default :  false }} )
+            const specialty = await Specialty.updateOne({ _id: id} ,  { $set :{   Default :  enable }} )
+            res.status(201).send(specialty)
+        }
+        catch(err){
+            res.status(400).json({message : err.message})
+        }
     },
      
 }

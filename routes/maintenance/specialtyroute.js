@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const jwt = require("jsonwebtoken")
-const SpecialtyController = require("../controllers/maintenance/SpecialtyController")
+const SpecialtyController = require("../../controllers/Maintenance/SpecialtyController")
  
 router.get("/All" , SpecialtyController.getAll)
  
@@ -12,6 +12,10 @@ router.get("/ByName/:searchText/:pageSize/:currentPage", SpecialtyController.get
 router.post("/CreateSpecialty", SpecialtyController.CreateSpecialty)
 
 router.put("/UpdateSpecialty", SpecialtyController.UpdateSpecialty)
+
+router.put("/EnableSpecialty/:id/:enable", SpecialtyController.EnableSpecialty)
+
+router.put("/DefaultSpecialty/:id/:enable", SpecialtyController.DefaultSpecialty)
 
 router.delete("/DeleteSpecialty/:id", SpecialtyController.DeleteSpecialty)
  

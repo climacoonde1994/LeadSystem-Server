@@ -41,7 +41,7 @@ const countryRoute = require('./routes/maintenance/countryroute')
 const departmentRoute = require('./routes/maintenance/departmentroute')
 const sourceRoute = require('./routes/maintenance/sourceroute')
 const specialtyRoute = require('./routes/maintenance/specialtyroute')
-const systemtypeRoute = require('./routes/maintenance/sourceroute')
+const systemtypeRoute = require('./routes/maintenance/systemtyperoute')
 
 
 //maintenance end points

@@ -1,5 +1,5 @@
 
-const CutPaste = require('../models/Lead/cutpaste')
+const CutPaste = require('../../models/Lead/cutpaste')
 module.exports = {
 
 

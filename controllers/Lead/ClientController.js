@@ -1,5 +1,5 @@
 
-const Client = require('../models/Lead/client')
+const Client = require('../../models/Lead/client')
 module.exports = {
 
 

@@ -5,6 +5,8 @@ const DepartmentSchema = new mongoose.Schema({
     Code: {type: String, required: true},
     Name:  {type: String, required: true},
     Description:  {type: String},
+    Enabled : {type : Boolean },
+    Default : {type : Boolean },
     CreatedDate: {type : Date , required : false},
     CreatedById: {type: Number},
     UpdatedDate: {type : Date , required : false},

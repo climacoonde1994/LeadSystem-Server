@@ -1,5 +1,5 @@
 
-const SystemType = require('../models/Maintenance/systemtype')
+const SystemType = require('../../models/Maintenance/systemtype')
 module.exports = {
 
 
@@ -71,14 +71,16 @@ module.exports = {
     },
     CreateSystemType : async (req,res) => {
         try{
-            const systemtype = new SystemType({
-                SystemTypeId : req.body.SystemTypeId,
-                Code : req.body.Code,
-                Name : req.body.Name,
-                Description : req.body.Description,
-                CreatedDate : new Date(),
-                CreatedById: 1,
-                
+            var systemtype = new SystemType({
+                    SystemTypeId : req.body.SystemTypeId,
+                    Code : req.body.Code,
+                    Name : req.body.Name,
+                    Description : req.body.Description,
+                    Enabled : true,
+                    Default : false,
+                    Description : req.body.Description,
+                    CreatedDate : new Date(),
+                    CreatedById: 1,
                 })
                 systemtype = await systemtype.save()
                 res.status(201).send(systemtype)
@@ -92,8 +94,8 @@ module.exports = {
   
         try{
 
-            const systemtype = await SystemType.updateOne({ Id:  req.body.Id} , 
-                { $set :{    SystemTypeId : req.body.SystemTypeId,
+            const systemtype = await SystemType.updateOne({ _id:  req.body.Id} , 
+                { $set :{   SystemTypeId : req.body.SystemTypeId,
                             Code : req.body.Code,
                             Name : req.body.Name,
                             Description : req.body.Description,
@@ -113,13 +115,39 @@ module.exports = {
     DeleteSystemType : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await SystemType.deleteOne({SystemTypeId:id})
+            const response = await SystemType.deleteOne({_id:  req.params.id})
             res.status(201).send(response)
         }
         catch(err){
             res.status(400).json({message : err.message})
         }
          
+    },
+
+    EnableSystemType : async (req,res) => {
+        try 
+        {   
+            id = req.params.id
+            enable = req.params.enable
+            const systemtype = await SystemType.updateOne({ _id:  id} ,   { $set :{   Enabled :  enable }} )
+            res.status(201).send(systemtype)
+        }
+        catch(err){
+            res.status(400).json({message : err.message})
+        }
+    },
+
+    DefaultSystemType : async (req,res) => {
+        try 
+        {   id = req.params.id
+            enable = req.params.enable
+            const allsystemtype = await SystemType.updateMany({ $set :{ Default :  false }} )
+            const systemtype = await SystemType.updateOne({ _id: id} ,  { $set :{   Default :  enable }} )
+            res.status(201).send(systemtype)
+        }
+        catch(err){
+            res.status(400).json({message : err.message})
+        }
     },
      
 }

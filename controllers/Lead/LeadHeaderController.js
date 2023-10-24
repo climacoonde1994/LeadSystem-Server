@@ -1,5 +1,5 @@
 
-const LeadHeader = require('../models/Lead/leadheader')
+const LeadHeader = require('../../models/Lead/leadheader')
 module.exports = {
 
 

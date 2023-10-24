@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const jwt = require("jsonwebtoken")
-const CutPasteController = require("../controllers/Lead/CutPasteController")
+const CutPasteController = require("../../controllers/Lead/CutPasteController")
  
 router.get("/All" , CutPasteController.getAll)
  

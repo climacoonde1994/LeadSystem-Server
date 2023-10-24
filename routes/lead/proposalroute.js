@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const jwt = require("jsonwebtoken")
-const ProposalController = require("../controllers/Lead/ProposalController")
+const ProposalController = require("../../controllers/Lead/ProposalController")
  
 router.get("/All" , ProposalController.getAll)
  

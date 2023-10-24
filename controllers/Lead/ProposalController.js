@@ -1,5 +1,5 @@
 
-const Proposal = require('../models/Lead/proposal')
+const Proposal = require('../../models/Lead/proposal')
 module.exports = {
 
 

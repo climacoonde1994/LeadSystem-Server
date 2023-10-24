@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const jwt = require("jsonwebtoken")
-const SourceController = require("../controllers/maintenance/SourceController")
+const SourceController = require("../../controllers/Maintenance/SourceController")
  
 router.get("/All" , SourceController.getAll)
  
@@ -12,6 +12,10 @@ router.get("/ByName/:searchText/:pageSize/:currentPage", SourceController.getByn
 router.post("/CreateSource", SourceController.CreateSource)
 
 router.put("/UpdateSource", SourceController.UpdateSource)
+
+router.put("/EnableSource/:id/:enable", SourceController.EnableSource)
+
+router.put("/DefaultSource/:id/:enable", SourceController.DefaultSource)
 
 router.delete("/DeleteSource/:id", SourceController.DeleteSource)
  

@@ -1,5 +1,5 @@
 
-const CityState = require('../models/Maintenance/citystate')
+const CityState = require('../../models/Maintenance/citystate')
 module.exports = {
 
 

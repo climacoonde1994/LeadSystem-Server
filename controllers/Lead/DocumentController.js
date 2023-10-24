@@ -1,5 +1,5 @@
 
-const Document = require('../models/Lead/document')
+const Document = require('../../models/Lead/document')
 module.exports = {
 
 

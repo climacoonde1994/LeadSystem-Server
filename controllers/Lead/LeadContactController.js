@@ -1,5 +1,5 @@
 
-const LeadContact = require('../models/Lead/leadcontact')
+const LeadContact = require('../../models/Lead/leadcontact')
 module.exports = {
 
 

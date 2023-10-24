@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const jwt = require("jsonwebtoken")
-const LeadHeaderController = require("../controllers/Lead/LeadHeaderController")
+const LeadHeaderController = require("../../controllers/Lead/LeadHeaderController")
  
 router.get("/All" , LeadHeaderController.getAll)
  

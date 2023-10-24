@@ -1,5 +1,5 @@
 
-GET http://localhost:3000/drivers/all
+GET http://localhost:3000/api/source/all
 
 ###
 GET http://localhost:3000/api/users/getall
@@ -47,6 +47,20 @@ Content-Type: application/json
     "Mobile" : "0950346030",
     "Status" : "Accept: ",
     "Ludatetime" : "07/10/1994"
+}
+
+###
+
+POST http://localhost:3000/api/source/CreateSource
+Content-Type: application/json
+
+{
+    "SourceId" : "1",
+    "Code" : "INT",
+    "Name" : "INTERNET",
+    "Description" : "Source from Internet",
+    "Enabled" : "true",
+    "Default" : "true"
 }
  
  

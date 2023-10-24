@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const jwt = require("jsonwebtoken")
-const CityStateController = require("../controllers/maintenance/CityStateController")
+const CityStateController = require("../../controllers/Maintenance/CityStateController")
  
 router.get("/All" , CityStateController.getAll)
  

@@ -1,5 +1,5 @@
 
-const Source = require('../models/Maintenance/source')
+const Source = require('../../models/Maintenance/source')
 module.exports = {
 
 
@@ -71,14 +71,16 @@ module.exports = {
     },
     CreateSource : async (req,res) => {
         try{
-            const source = new Source({
-                SourceId : req.body.SourceId,
-                Code : req.body.Code,
-                Name : req.body.Name,
-                Description : req.body.Description,
-                CreatedDate : new Date(),
-                CreatedById: 1,
-                
+            var source = new Source({
+                    SourceId : req.body.SourceId,
+                    Code : req.body.Code,
+                    Name : req.body.Name,
+                    Description : req.body.Description,
+                    Enabled : true,
+                    Default : false,
+                    Description : req.body.Description,
+                    CreatedDate : new Date(),
+                    CreatedById: 1,
                 })
                 source = await source.save()
                 res.status(201).send(source)
@@ -92,8 +94,8 @@ module.exports = {
   
         try{
 
-            const source = await Source.updateOne({ Id:  req.body.Id} , 
-                { $set :{    SourceId : req.body.SourceId,
+            const source = await Source.updateOne({ _id:  req.body.Id} , 
+                { $set :{   SourceId : req.body.SourceId,
                             Code : req.body.Code,
                             Name : req.body.Name,
                             Description : req.body.Description,
@@ -113,13 +115,39 @@ module.exports = {
     DeleteSource : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await Source.deleteOne({SourceId:id})
+            const response = await Source.deleteOne({_id:  req.params.id})
             res.status(201).send(response)
         }
         catch(err){
             res.status(400).json({message : err.message})
         }
          
+    },
+
+    EnableSource : async (req,res) => {
+        try 
+        {   
+            id = req.params.id
+            enable = req.params.enable
+            const source = await Source.updateOne({ _id:  id} ,   { $set :{   Enabled :  enable }} )
+            res.status(201).send(source)
+        }
+        catch(err){
+            res.status(400).json({message : err.message})
+        }
+    },
+
+    DefaultSource : async (req,res) => {
+        try 
+        {   id = req.params.id
+            enable = req.params.enable
+            const allsource = await Source.updateMany({ $set :{ Default :  false }} )
+            const source = await Source.updateOne({ _id: id} ,  { $set :{   Default :  enable }} )
+            res.status(201).send(source)
+        }
+        catch(err){
+            res.status(400).json({message : err.message})
+        }
     },
      
 }

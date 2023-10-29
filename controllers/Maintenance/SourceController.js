@@ -71,8 +71,20 @@ module.exports = {
     },
     CreateSource : async (req,res) => {
         try{
+             Largest = await Source.find().sort({SourceId : -1}).limit(1)
+          
+            var sourceId = 0;
+            if(Largest.length > 0 )
+            {  
+                sourceId = Largest[0].SourceId + 1;
+                console.log(Largest)
+            }
+            else{
+                sourceId = 1;
+            }
+        
             var source = new Source({
-                    SourceId : req.body.SourceId,
+                    SourceId : sourceId,
                     Code : req.body.Code,
                     Name : req.body.Name,
                     Description : req.body.Description,

@@ -15,5 +15,5 @@ router.put("/UpdateDocument", DocumentController.UpdateDocument)
 
 router.delete("/DeleteDocument/:id", DocumentController.DeleteDocument)
  
-module.exports = router
+module.exports = router 
 

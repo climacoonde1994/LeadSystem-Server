@@ -65,4 +65,4 @@ app.use('/api/user' , usersRoute)
 app.use('/api/authentication' , authenticationRoute)
 
 app.listen(3000  , ()=> console.log("server is on"))
-app.use(express.static(__dirname + "/routes/uploads"));
+app.use(express.static(__dirname + "/routes/uploads")); 

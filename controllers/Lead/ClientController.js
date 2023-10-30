@@ -1,5 +1,7 @@
 
 const Client = require('../../models/Lead/client')
+
+const City = require('../../models/Maintenance/city') 
 module.exports = {
 
 
@@ -69,36 +71,33 @@ module.exports = {
         }
 
     },
+
+ 
+ 
     CreateClient : async (req,res) => {
         try{
 
-            Largest = await Client.find().sort({ClientId : -1}).limit(1)
-          
-            var clientId = 0;
-            if(Largest.length > 0 )
-            {  
-                clientId = Largest[0].ClientId + 1;
-                console.log(Largest)
-            }
-            else{
-                clientId = 1;
-            }
-            
+            var LatestClient = await Client.find().limit(1).sort({ CityId: -1 })
+            var Id = 1;
+            if(LatestClient.length > 0)
+            {
+                Id = LatestClient[0].ClientId + 1;
+            } 
             var client = new Client({
-                    ClientId : clientId,
-                    Code : req.body.Code,
-                    Name : req.body.Name,
-                    Description : req.body.Description,
-                    Adress1 : req.body.Adress1,
-                    Adress2 : req.body.Adress2,
-                    CountryId : req.body.CountryId,
-                    CityStateId : req.body.CityStateId,
-                    Phone : req.body.Phone,
-                    FAX : req.body.FAX,
-                    URL : req.body.URL,
-                    GMTOffset : req.body.GMTOffset,
-                    CreatedDate : new Date(),
-                    CreatedById: 1,
+                ClientId : Id,
+                Code : req.body.Code,
+                Name : req.body.Name,
+                Description : req.body.Description,
+                Adress1 : req.body.Adress1,
+                Adress2 : req.body.Adress2,
+                CityId : req.body.CityId,
+                CountryId : req.body.CountryId,
+                Phone : req.body.Phone,
+                FAX : req.body.FAX,
+                URL : req.body.URL,
+                GMTOffset : req.body.GMTOffset,
+                CreatedDate : new Date(),
+                CreatedById: 1,
                 })
                 client = await client.save()
                 res.status(201).send(client)
@@ -112,15 +111,15 @@ module.exports = {
   
         try{
 
-            const client = await Client.updateOne({ _id:  req.body.Id} , 
-                { $set :{   ClientId : req.body.ClientId,
+            const client = await Client.updateOne({ Id:  req.body.Id} , 
+                { $set :{    ClientId : req.body.ClientId,
                             Code : req.body.Code,
                             Name : req.body.Name,
                             Description : req.body.Description,
                             Adress1 : req.body.Adress1,
                             Adress2 : req.body.Adress2,
+                            CityId : req.body.CityId,
                             CountryId : req.body.CountryId,
-                            CityStateId : req.body.CityStateId,
                             Phone : req.body.Phone,
                             FAX : req.body.FAX,
                             URL : req.body.URL,
@@ -141,39 +140,13 @@ module.exports = {
     DeleteClient : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await Client.deleteOne({_id:  req.params.id})
+            const response = await Client.deleteOne({ClientId:id})
             res.status(201).send(response)
         }
         catch(err){
             res.status(400).json({message : err.message})
         }
          
-    },
-
-    EnableClient : async (req,res) => {
-        try 
-        {   
-            id = req.params.id
-            enable = req.params.enable
-            const client = await Client.updateOne({ _id:  id} ,   { $set :{   Enabled :  enable }} )
-            res.status(201).send(client)
-        }
-        catch(err){
-            res.status(400).json({message : err.message})
-        }
-    },
-
-    DefaultClient : async (req,res) => {
-        try 
-        {   id = req.params.id
-            enable = req.params.enable
-            const allclient = await Client.updateMany({ $set :{ Default :  false }} )
-            const client = await Client.updateOne({ _id: id} ,  { $set :{   Default :  enable }} )
-            res.status(201).send(client)
-        }
-        catch(err){
-            res.status(400).json({message : err.message})
-        }
     },
      
 }

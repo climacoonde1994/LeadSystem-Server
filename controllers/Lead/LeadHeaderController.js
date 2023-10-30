@@ -70,21 +70,6 @@ module.exports = {
 
     },
 
-   
-   
-  
-    
-     
-    Likelihood : {type: String},
-    Comments : {type: Number},
-    ActionNeeded: {type: String},
-    MeetDate:  {type: Date},
-    Remarks:  {type: String},
-    BestTimeCall:  {type: String},
-    SpecialtyId:  {type: Number},
-    InternetContactList:  {type: String},
-    ActionNeededNotes:  {type: String},
-    InternetNotes:  {type: String},
  
     CreateLeadHeader : async (req,res) => {
         try{

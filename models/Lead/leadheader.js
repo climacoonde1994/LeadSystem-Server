@@ -19,8 +19,8 @@ const LeadHeaderSchema = new mongoose.Schema({
     ActionNeeded: {type: String},
     MeetDate:  {type: Date},
     Remarks:  {type: String},
-    BestTimeCall:  {type: String},
-    SpecialtyId:  {type: Number},
+ 
+   
     InternetContactList:  {type: String},
     ActionNeededNotes:  {type: String},
     InternetNotes:  {type: String},

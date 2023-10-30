@@ -8,7 +8,7 @@ const ClientSchema = new mongoose.Schema({
     Adress1:  {type: String},
     Adress2: {type: String},
     CountryId: {type: Number, required: true},
-    CityStateId: {type: Number},
+    CityId: {type: Number},
     Phone: {type: String},
     FAX: {type: String},
     URL: {type: String},

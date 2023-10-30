@@ -1,12 +1,12 @@
 
-const CityState = require('../../models/Maintenance/citystate')
+const City = require('../../models/Maintenance/city')
 module.exports = {
 
 
     getAll : async (req,res) => {
         try{
-            const CityStates = await CityState.find()
-            res.status(200).send(CityStates)
+            const Citys = await City.find()
+            res.status(200).send(Citys)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -16,8 +16,8 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const CityState = await CityState.find({CityStateId: id})
-            res.status(200).send(CityState)
+            const City = await City.find({CityId: id})
+            res.status(200).send(City)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -34,21 +34,21 @@ module.exports = {
             {  
                 if(searchText == 'Default')
                 {
-                    const Allcitystates  = await CityState.find( );
-                    const citystates = await CityState.find().skip(skip).limit(pageSize).sort({ LastName: -1 })
+                    const Allcitys  = await City.find( );
+                    const citys = await City.find().skip(skip).limit(pageSize).sort({ LastName: -1 })
                     response = {
-                        totalSize: Allcitystates.length,
-                        response: citystates,
+                        totalSize: Allcitys.length,
+                        response: citys,
                         status: true,
                     }
                 }
                 else
                 {
-                    const Allcitystates  = await CityState.find( {$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]} );
-                    const citystates = await CityState.find({$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]}).skip(skip).limit(pageSize).sort({ LastName: -1 })
+                    const Allcitys  = await City.find( {$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]} );
+                    const citys = await City.find({$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]}).skip(skip).limit(pageSize).sort({ LastName: -1 })
                     response = {
-                        totalSize: Allcitystates.length,
-                        response: citystates,
+                        totalSize: Allcitys.length,
+                        response: citys,
                         status: true,
                     }
                 }
@@ -69,33 +69,40 @@ module.exports = {
         }
 
     },
-    CreateCityState : async (req,res) => {
+    CreateCity : async (req,res) => {
         try{
-            const citystate = new CityState({
-                CityStateId : req.body.CityStateId,
+
+            var LatestCity = await City.find().limit(1).sort({ CityId: -1 })
+            var Id = 1;
+            if(LatestCity.length > 0)
+            {
+                Id = LatestCity[0].CityId + 1;
+            }
+            var city = new City({
+                CityId : Id,
                 CountryId : req.body.CountryId,
                 Code : req.body.Code,
                 Name : req.body.Name,
+                ZIP : req.body.ZIP,
                 Description : req.body.Description,
                 CreatedDate : new Date(),
                 CreatedById: 1,
-                
                 })
-                citystate = await citystate.save()
-                res.status(201).send(citystate)
+                city = await city.save()
+                res.status(201).send(city)
         }
         catch(err){
             res.status(500).json({message : err.message})
         }
     },
 
-    UpdateCityState : async (req,res) => {
+    UpdateCity : async (req,res) => {
   
         try{
 
-            const citystate = await CityState.updateOne({ Id:  req.body.Id} , 
-                { $set :{   CityStateId : req.body.CityStateId,
-                            CountryId : req.body.CountryId,
+            const city = await City.updateOne({ Id:  req.body.CityId} , 
+                { $set :{   CityId : req.body.CityId,
+                            CityId : req.body.CityId,
                             Code : req.body.Code,
                             Name : req.body.Name,
                             Description : req.body.Description,
@@ -105,17 +112,17 @@ module.exports = {
                 } )
             
               
-                res.status(201).send(citystate)
+                res.status(201).send(city)
                
         }
         catch(err){
             res.status(500).json({message : err.message})
         }
     },
-    DeleteCityState : async (req,res) => {
+    DeleteCity : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await CityState.deleteOne({CityStateId:id})
+            const response = await City.deleteOne({CityId:id})
             res.status(201).send(response)
         }
         catch(err){

@@ -71,8 +71,16 @@ module.exports = {
     },
     CreateCountry : async (req,res) => {
         try{
+            var LatestCountry = await Country.find().limit(1).sort({ CountryId: -1 })
+            var Id = 1;
+            if(LatestCountry.length > 0)
+            {
+                Id = LatestCountry[0].CountryId + 1;
+            }
+          
+    
             var country = new Country({
-                    CountryId : req.body.CountryId,
+                    CountryId : Id,
                     Code : req.body.Code,
                     Name : req.body.Name,
                     Description : req.body.Description,

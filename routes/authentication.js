@@ -5,8 +5,7 @@ const bcrypt =  require("bcrypt")
 const router = express.Router()
 const jwt = require("jsonwebtoken")
 const User = require('../models/user')
-const paginationDto = require('../dto/PaginationDto')
-const securityDto = require('../dto/SecurityDto')
+ 
 
 router.get("/", async (req,res) => {
     try{

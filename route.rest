@@ -1,5 +1,9 @@
 
-GET http://localhost:3000/api/source/all
+GET http://localhost:3000/api/country/all
+
+###
+
+GET http://localhost:3000/api/city/all
 
 ###
 GET http://localhost:3000/api/users/getall

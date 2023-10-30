@@ -1,5 +1,7 @@
 
 const Client = require('../../models/Lead/client')
+
+const City = require('../../models/Maintenance/city') 
 module.exports = {
 
 
@@ -71,25 +73,31 @@ module.exports = {
     },
 
  
-    GMTOffset: {type: Number},
+ 
     CreateClient : async (req,res) => {
         try{
-            const client = new Client({
-                ClientId : req.body.ClientId,
+
+            var LatestClient = await Client.find().limit(1).sort({ CityId: -1 })
+            var Id = 1;
+            if(LatestClient.length > 0)
+            {
+                Id = LatestClient[0].ClientId + 1;
+            } 
+            var client = new Client({
+                ClientId : Id,
                 Code : req.body.Code,
                 Name : req.body.Name,
                 Description : req.body.Description,
                 Adress1 : req.body.Adress1,
                 Adress2 : req.body.Adress2,
+                CityId : req.body.CityId,
                 CountryId : req.body.CountryId,
-                CityStateId : req.body.CityStateId,
                 Phone : req.body.Phone,
                 FAX : req.body.FAX,
                 URL : req.body.URL,
                 GMTOffset : req.body.GMTOffset,
                 CreatedDate : new Date(),
                 CreatedById: 1,
-                
                 })
                 client = await client.save()
                 res.status(201).send(client)
@@ -110,8 +118,8 @@ module.exports = {
                             Description : req.body.Description,
                             Adress1 : req.body.Adress1,
                             Adress2 : req.body.Adress2,
+                            CityId : req.body.CityId,
                             CountryId : req.body.CountryId,
-                            CityStateId : req.body.CityStateId,
                             Phone : req.body.Phone,
                             FAX : req.body.FAX,
                             URL : req.body.URL,

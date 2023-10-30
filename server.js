@@ -36,7 +36,7 @@ const leadheaderRoute = require('./routes/lead/leadheaderroute')
 const proposalRoute = require('./routes/lead/proposalroute')
 
 //maintenance routes
-const citystateRoute = require('./routes/maintenance/citystateroute')
+const cityRoute = require('./routes/maintenance/cityroute')
 const countryRoute = require('./routes/maintenance/countryroute')
 const departmentRoute = require('./routes/maintenance/departmentroute')
 const sourceRoute = require('./routes/maintenance/sourceroute')
@@ -45,7 +45,7 @@ const systemtypeRoute = require('./routes/maintenance/systemtyperoute')
 
 
 //maintenance end points
-app.use('/api/citystate' , citystateRoute) 
+app.use('/api/city' , cityRoute) 
 app.use('/api/country' , countryRoute)
 app.use('/api/department', departmentRoute)
 app.use('/api/source', sourceRoute)

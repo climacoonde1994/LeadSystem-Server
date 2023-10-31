@@ -13,9 +13,6 @@ router.post("/CreateClient", ClientController.CreateClient)
 
 router.put("/UpdateClient", ClientController.UpdateClient)
 
-router.put("/EnableClient/:id/:enable", ClientController.EnableClient)
-
-router.put("/DefaultClient/:id/:enable", ClientController.DefaultClient)
 
 router.delete("/DeleteClient/:id", ClientController.DeleteClient)
  

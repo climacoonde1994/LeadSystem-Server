@@ -19,7 +19,13 @@ const LeadHeaderSchema = new mongoose.Schema({
     ActionNeeded: {type: String},
     MeetDate:  {type: Date},
     Remarks:  {type: String},
- 
+    Notes : [
+        {
+            NoteId: {type: Number},
+            Date: {type: String, require: true},
+            Description: { type: String, require: true}
+        }
+    ],
    
     InternetContactList:  {type: String},
     ActionNeededNotes:  {type: String},
@@ -27,7 +33,7 @@ const LeadHeaderSchema = new mongoose.Schema({
     CreatedDate: {type : Date , required : false},
     CreatedById: {type: Number},
     UpdatedDate: {type : Date , required : false},
-    UpdatedById: {type: Number}
+    UpdatedById: {type: Number},
     });
 
 module.exports = mongoose.model('leadheader',LeadHeaderSchema)

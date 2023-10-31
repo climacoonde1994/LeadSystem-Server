@@ -24,8 +24,9 @@ app.use(express.json())
 
 //accounty routes
 const usersRoute = require('./routes/users')
-const authenticationRoute = require('./routes/authentication')
 
+const authenticationRoute = require('./routes/authentication')
+const employeeRoute = require('./routes/Account/employeeroute')
 //lead routes
 const clientRoute = require('./routes/lead/clientroute')
 const commentRoute = require('./routes/lead/commentroute')
@@ -63,6 +64,9 @@ app.use('/api/proposal', proposalRoute)
  
 app.use('/api/user' , usersRoute) 
 app.use('/api/authentication' , authenticationRoute)
+
+app.use('/api/employee' , employeeRoute) 
+
 
 app.listen(3000  , ()=> console.log("server is on"))
 app.use(express.static(__dirname + "/routes/uploads")); 

@@ -13,6 +13,10 @@ router.post("/CreateCity", CityController.CreateCity)
 
 router.put("/UpdateCity", CityController.UpdateCity)
 
+router.put("/EnableCity/:id/:enable", CityController.EnableCity)
+
+router.put("/DefaultCity/:id/:enable", CityController.DefaultCity)
+
 router.delete("/DeleteCity/:id", CityController.DeleteCity)
  
 module.exports = router

@@ -16,8 +16,8 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const Department = await Department.find({DepartmentId: id})
-            res.status(200).send(Department)
+            const department = await Department.find({DepartmentId: id})
+            res.status(200).send(department[0])
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -71,8 +71,16 @@ module.exports = {
     },
     CreateDepartment : async (req,res) => {
         try{
+
+            var LatestDepartment = await Department.find().limit(1).sort({ DepartmentId: -1 })
+            var Id = 1;
+            if(LatestDepartment.length > 0)
+            {
+                Id = LatestDepartment[0].DepartmentId + 1;
+            }
+
             var department = new Department({
-                    DepartmentId : req.body.DepartmentId,
+                    DepartmentId : Id,
                     Code : req.body.Code,
                     Name : req.body.Name,
                     Description : req.body.Description,

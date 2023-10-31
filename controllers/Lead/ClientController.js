@@ -1,7 +1,6 @@
 
 const Client = require('../../models/Lead/client')
 
-const City = require('../../models/Maintenance/city') 
 module.exports = {
 
 
@@ -18,8 +17,8 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const Client = await Client.find({ClientId: id})
-            res.status(200).send(Client)
+            const client = await Client.find({ClientId: id})
+            res.status(200).send(client[0])
         }
         catch(err){
             res.status(500).json({message : err.message})

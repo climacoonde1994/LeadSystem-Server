@@ -16,8 +16,8 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const City = await City.find({CityId: id})
-            res.status(200).send(City)
+            const city = await City.find({CityId: id})
+            res.status(200).send(city[0])
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -80,10 +80,12 @@ module.exports = {
             }
             var city = new City({
                 CityId : Id,
-                CountryId : req.body.CountryId,
+                CityId : req.body.CityId,
                 Code : req.body.Code,
                 Name : req.body.Name,
                 ZIP : req.body.ZIP,
+                Enabled : true,
+                Default : false,
                 Description : req.body.Description,
                 CreatedDate : new Date(),
                 CreatedById: 1,
@@ -129,6 +131,32 @@ module.exports = {
             res.status(400).json({message : err.message})
         }
          
+    },
+
+    EnableCity : async (req,res) => {
+        try 
+        {   
+            id = req.params.id
+            enable = req.params.enable
+            const city = await City.updateOne({ _id:  id} ,   { $set :{   Enabled :  enable }} )
+            res.status(201).send(city)
+        }
+        catch(err){
+            res.status(400).json({message : err.message})
+        }
+    },
+
+    DefaultCity : async (req,res) => {
+        try 
+        {   id = req.params.id
+            enable = req.params.enable
+            const allcity = await City.updateMany({ $set :{ Default :  false }} )
+            const city = await City.updateOne({ _id: id} ,  { $set :{   Default :  enable }} )
+            res.status(201).send(city)
+        }
+        catch(err){
+            res.status(400).json({message : err.message})
+        }
     },
      
 }

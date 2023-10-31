@@ -15,9 +15,10 @@ module.exports = {
 
     getById : async (req,res) => {
         try{
+            console.log(req.params.id)
             const id = req.params.id;
-            const Source = await Source.find({SourceId: id})
-            res.status(200).send(Source)
+            var source = await Source.find({SourceId: id})
+            res.status(200).send(source[0])
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -77,7 +78,6 @@ module.exports = {
             if(Largest.length > 0 )
             {  
                 sourceId = Largest[0].SourceId + 1;
-                console.log(Largest)
             }
             else{
                 sourceId = 1;

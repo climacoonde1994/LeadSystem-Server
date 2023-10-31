@@ -16,8 +16,8 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const Country = await Country.find({CountryId: id})
-            res.status(200).send(Country)
+            const country = await Country.find({CountryId: id})
+            res.status(200).send(country[0])
         }
         catch(err){
             res.status(500).json({message : err.message})

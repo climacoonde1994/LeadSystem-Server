@@ -16,8 +16,8 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const SystemType = await SystemType.find({SystemTypeId: id})
-            res.status(200).send(SystemType)
+            const systemtype = await SystemType.find({SystemTypeId: id})
+            res.status(200).send(systemtype[0])
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -71,8 +71,15 @@ module.exports = {
     },
     CreateSystemType : async (req,res) => {
         try{
+
+            var LatestSystemType = await SystemType.find().limit(1).sort({ SystemTypeId: -1 })
+            var Id = 1;
+            if(LatestSystemType.length > 0)
+            {
+                Id = LatestSystemType[0].SystemTypeId + 1;
+            }
             var systemtype = new SystemType({
-                    SystemTypeId : req.body.SystemTypeId,
+                    SystemTypeId : Id,
                     Code : req.body.Code,
                     Name : req.body.Name,
                     Description : req.body.Description,

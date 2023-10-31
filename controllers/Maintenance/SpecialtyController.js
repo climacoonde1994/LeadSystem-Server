@@ -16,8 +16,8 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const Specialty = await Specialty.find({SpecialtyId: id})
-            res.status(200).send(Specialty)
+            const specialty = await Specialty.find({SpecialtyId: id})
+            res.status(200).send(specialty[0])
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -71,8 +71,15 @@ module.exports = {
     },
     CreateSpecialty : async (req,res) => {
         try{
+
+            var LatestSpecialty = await Specialty.find().limit(1).sort({ SpecialtyId: -1 })
+            var Id = 1;
+            if(LatestSpecialty.length > 0)
+            {
+                Id = LatestSpecialty[0].SpecialtyId + 1;
+            }
             var specialty = new Specialty({
-                    SpecialtyId : req.body.SpecialtyId,
+                    SpecialtyId : Id,
                     Code : req.body.Code,
                     Name : req.body.Name,
                     Description : req.body.Description,

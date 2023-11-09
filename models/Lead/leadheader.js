@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const LeadHeaderSchema = new mongoose.Schema({
     LeadId : {type: Number, required: true},
     ClientId : {type: Number, required: true},
+    ClientName : {type: String, required: true},
     LeadNo: {type: String, required: true},
     LeadDate:  {type: String, required: true},
     Status : {type: String, required: true},
@@ -19,14 +20,6 @@ const LeadHeaderSchema = new mongoose.Schema({
     ActionNeeded: {type: String},
     MeetDate:  {type: Date},
     Remarks:  {type: String},
-    Notes : [
-        {
-            NoteId: {type: Number},
-            Date: {type: String, require: true},
-            Description: { type: String, require: true}
-        }
-    ],
-   
     InternetContactList:  {type: String},
     ActionNeededNotes:  {type: String},
     InternetNotes:  {type: String},

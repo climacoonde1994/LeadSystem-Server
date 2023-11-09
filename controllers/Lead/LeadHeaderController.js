@@ -5,6 +5,7 @@ module.exports = {
 
     getAll : async (req,res) => {
         try{
+            
             const LeadHeaders = await LeadHeader.find()
             res.status(200).send(LeadHeaders)
         }
@@ -72,13 +73,23 @@ module.exports = {
 
  
     CreateLeadHeader : async (req,res) => {
+
+        console.log(req)
         try{
 
+            var LatestLeadHeader = await LeadHeader.find().limit(1).sort({ LeadId: -1 })
+            var Id = 1;
+            if(LatestLeadHeader.length > 0)
+            {
+                Id = LatestLeadHeader[0].LeadId + 1;
+            }
+
             
-            const leadheader = new LeadHeader({
-                LeadId : req.body.LeadId,
+            var leadheader = new LeadHeader({
+                LeadId : Id,
                 ClientId : req.body.ClientId,
-                LeadNo : req.body.LeadNo,
+                ClientName : req.body.ClientName,
+                LeadNo : Id +'-'+req.body.ClientId,
                 LeadDate : req.body.LeadDate,
                 Status : req.body.Status,
                 StatusComment : req.body.StatusComment,
@@ -100,7 +111,6 @@ module.exports = {
                 InternetNotes : req.body.InternetNotes,
                 CreatedDate : new Date(),
                 CreatedById: 1,
-                
                 })
                 leadheader = await leadheader.save()
                 res.status(201).send(leadheader)

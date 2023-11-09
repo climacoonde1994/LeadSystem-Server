@@ -1,12 +1,12 @@
 
-GET http://localhost:3000/api/employee/all
+GET http://localhost:3000/api/leadheader/all
 
 ###
 
 GET http://localhost:3000/api/city/all
 
 ###
-GET http://localhost:3000/api/users/getall
+GET http://localhost:3000/api/leadheader/getall
 
 ###
 GET http://localhost:3000/drivers/ByDriverId/1

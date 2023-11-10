@@ -1,12 +1,12 @@
 
-const CutPaste = require('../../models/Lead/cutpaste')
+const Note = require('../../models/Lead/notes')
 module.exports = {
 
 
     getAll : async (req,res) => {
         try{
-            const CutPastes = await CutPaste.find()
-            res.status(200).send(CutPastes)
+            const Notes = await Note.find()
+            res.status(200).send(Notes)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -16,8 +16,8 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const CutPaste = await CutPaste.find({CutPasteId: id})
-            res.status(200).send(CutPaste)
+            const Note = await Note.find({NoteId: id})
+            res.status(200).send(Note)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -34,21 +34,21 @@ module.exports = {
             {  
                 if(searchText == 'Default')
                 {
-                    const Allcutpastes  = await CutPaste.find( );
-                    const cutpastes = await CutPaste.find().skip(skip).limit(pageSize).sort({ LastName: -1 })
+                    const Allnotes  = await Note.find( );
+                    const notes = await Note.find().skip(skip).limit(pageSize).sort({ LastName: -1 })
                     response = {
-                        totalSize: Allcutpastes.length,
-                        response: cutpastes,
+                        totalSize: Allnotes.length,
+                        response: notes,
                         status: true,
                     }
                 }
                 else
                 {
-                    const Allcutpastes  = await CutPaste.find( {$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]} );
-                    const cutpastes = await CutPaste.find({$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]}).skip(skip).limit(pageSize).sort({ LastName: -1 })
+                    const Allnotes  = await Note.find( {$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]} );
+                    const notes = await Note.find({$or : [{ Code : searchText },{Name : searchText },{Description : searchText }]}).skip(skip).limit(pageSize).sort({ LastName: -1 })
                     response = {
-                        totalSize: Allcutpastes.length,
-                        response: cutpastes,
+                        totalSize: Allnotes.length,
+                        response: notes,
                         status: true,
                     }
                 }
@@ -72,7 +72,7 @@ module.exports = {
 
    
  
-    CreateCutPaste : async (req,res) => {
+    CreateNote : async (req,res) => {
         try{
             if (req.body && Array.isArray(req.body)) 
             {
@@ -80,26 +80,20 @@ module.exports = {
                 var records = req.body; 
 
                 for (const record of records) {
-                    var LatestCutPaste = await CutPaste.find().limit(1).sort({ CutPasteId: -1 })
+                    var LatestNote = await Note.find().limit(1).sort({ NoteId: -1 })
                     var Id = 1;
-                    if(LatestCutPaste.length > 0)
+                    if(LatestNote.length > 0)
                     {
-                        Id = LatestCutPaste[0].LeadId + 1;
+                        Id = LatestNote[0].LeadId + 1;
                     }
-
-                  
-                    var cutpaste = new CutPaste({
-                        CutPasteId : Id,
-                        LeadId : record.LeadId,
+                    var note = new Note({
+                        NoteId : record.NoteId,
+                        LeadId : Id,
                         Date : record.Date,
-                        Title : record.Title,
-                        Description : record.Description,
-                        Author : 1,
-                        CreatedDate : new Date(),
-                        CreatedById: 1,
+                        Description : record.Description
                         })
 
-                      cutpaste = await cutpaste.save()
+                      note = await note.save()
                 }
             
                
@@ -115,12 +109,12 @@ module.exports = {
         }
     },
 
-    UpdateCutPaste : async (req,res) => {
+    UpdateNote : async (req,res) => {
   
         try{
 
-            const cutpaste = await CutPaste.updateOne({ Id:  req.body.Id} , 
-                { $set :{   CutPasteId : req.body.CutPasteId,
+            const note = await Note.updateOne({ Id:  req.body.Id} , 
+                { $set :{   NoteId : req.body.NoteId,
                             LeadId : req.body.Code,
                             Firstname : req.body.Firstname,
                             LastName : req.body.LastName,
@@ -135,17 +129,17 @@ module.exports = {
                 } )
             
               
-                res.status(201).send(cutpaste)
+                res.status(201).send(note)
                
         }
         catch(err){
             res.status(500).json({message : err.message})
         }
     },
-    DeleteCutPaste : async (req,res) => {
+    DeleteNote : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await CutPaste.deleteOne({CutPasteId:id})
+            const response = await Note.deleteOne({NoteId:id})
             res.status(201).send(response)
         }
         catch(err){

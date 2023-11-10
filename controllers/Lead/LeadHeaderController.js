@@ -84,7 +84,6 @@ module.exports = {
                 Id = LatestLeadHeader[0].LeadId + 1;
             }
 
-            
             var leadheader = new LeadHeader({
                 LeadId : Id,
                 ClientId : req.body.ClientId,

@@ -72,14 +72,21 @@ module.exports = {
  
     CreateDocument : async (req,res) => {
         try{
-            const document = new Document({
-                DocumentId : req.body.DocumentId,
-                LeadId : req.body.LeadId,
-                Name : req.body.Name,
-                Content : req.body.Content,
-                Date : req.body.Date,
-                Author : req.body.Author,
-                Type : req.body.Type,
+  
+            var LatestDocument = await Document.find().limit(1).sort({ DocumentId: -1 })
+            var Id = 1;
+            if(LatestDocument.length > 0)
+            {
+                Id = LatestDocument[0].DocumentId + 1;
+            }
+
+            var document = new Document({
+                DocumentId : Id,
+                LeadId : req.params.leadId,
+                FileName : req.params.filename,
+                FileType : req.params.filetype,
+                Prefix : req.params.prefix,
+                Date : new Date(),
                 CreatedDate : new Date(),
                 CreatedById: 1,
                 })

@@ -33,6 +33,7 @@ const commentRoute = require('./routes/lead/commentroute')
 const cutpasteRoute = require('./routes/lead/cutpasteroute')
 const documentRoute = require('./routes/lead/documentroute')
 const leadcontactRoute = require('./routes/lead/leadcontactroute')
+const noteRoute = require('./routes/lead/noteroute')
 const leadheaderRoute = require('./routes/lead/leadheaderroute')
 const proposalRoute = require('./routes/lead/proposalroute')
 
@@ -61,7 +62,8 @@ app.use('/api/document', documentRoute)
 app.use('/api/leadcontact', leadcontactRoute)
 app.use('/api/leadheader', leadheaderRoute)
 app.use('/api/proposal', proposalRoute)
- 
+app.use('/api/note', noteRoute)
+
 app.use('/api/user' , usersRoute) 
 app.use('/api/authentication' , authenticationRoute)
 

@@ -74,21 +74,41 @@ module.exports = {
  
     CreateLeadContact : async (req,res) => {
         try{
-            const leadcontact = new LeadContact({
-                LeadContactId : req.body.LeadContactId,
-                LeadId : req.body.Code,
-                Firstname : req.body.Firstname,
-                LastName : req.body.LastName,
-                Status : req.body.Status,
-                DepartmentId : req.body.DepartmentId,
-                TypeId : req.body.TypeId,
-                Email : req.body.Email,
-                Remarks : req.body.Remarks,
-                CreatedDate : new Date(),
-                CreatedById: 1,
-                
-                })
-                leadcontact = await leadcontact.save()
+            if (req.body && Array.isArray(req.body)) {
+
+                var records = req.body; 
+            
+               
+                for (const record of records) {
+                    var LatestLeadContact = await LeadContact.find().limit(1).sort({ LeadContactId: -1 })
+                    var Id = 1;
+                    if(LatestLeadContact.length > 0)
+                    {
+                        Id = LatestLeadContact[0].LeadId + 1;
+                    }
+                    var leadcontact = new LeadContact({
+                        LeadContactId : record.LeadContactId,
+                        LeadId : Id,
+                        FirstName : record.FirstName,
+                        LastName :record.LastName,
+                        Status : record.Status,
+                        DepartmentId : record.DepartmentId,
+                        TypeId : record.TypeId,
+                        Email : record.Email,
+                        Remarks : record.Remarks,
+                        CreatedDate : new Date(),
+                        CreatedById: 1,
+                        })
+
+                      leadcontact = await leadcontact.save()
+                }
+            
+                res.status(200).send('Records processed successfully');
+              } else {
+                res.status(400).send('Invalid request format. Expecting an array of records.');
+              }
+
+           
                 res.status(201).send(leadcontact)
         }
         catch(err){

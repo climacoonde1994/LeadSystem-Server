@@ -69,21 +69,40 @@ module.exports = {
         }
 
     },
+
+   
  
     CreateProposal : async (req,res) => {
         try{
-            const proposal = new Proposal({
-                ProposalId : req.body.ProposalId,
-                LeadId : req.body.LeadId,
-                ProposalRemarks : req.body.Content,
-                Date : req.body.Date,
-                Author : req.body.Author,
-                Type : req.body.Type,
-                CreatedDate : new Date(),
-                CreatedById: 1,
-                })
-                proposal = await proposal.save()
-                res.status(201).send(proposal)
+            if (req.body && Array.isArray(req.body)) 
+            {
+
+                var records = req.body; 
+
+                for (const record of records) {
+                    var LatestProposal = await Proposal.find().limit(1).sort({ ProposalId: -1 })
+                    var Id = 1;
+                    if(LatestProposal.length > 0)
+                    {
+                        Id = LatestProposal[0].LeadId + 1;
+                    }
+                    var proposal = new Proposal({
+                        ProposalId : Id,
+                        LeadId : record.LeadId,
+                        Date : record.Date,
+                        Proposal : record.Proposal
+                        })
+
+                      proposal = await proposal.save()
+                }
+            
+               
+              } else {
+                res.status(400).send('Invalid request format. Expecting an array of records.');
+              }
+
+           
+                
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -95,12 +114,15 @@ module.exports = {
         try{
 
             const proposal = await Proposal.updateOne({ Id:  req.body.Id} , 
-                { $set :{    ProposalId : req.body.ProposalId,
-                            LeadId : req.body.LeadId,
-                            ProposalRemarks : req.body.Content,
-                            Date : req.body.Date,
-                            Author : req.body.Author,
-                            Type : req.body.Type,
+                { $set :{   ProposalId : req.body.ProposalId,
+                            LeadId : req.body.Code,
+                            Firstname : req.body.Firstname,
+                            LastName : req.body.LastName,
+                            Status : req.body.Status,
+                            DepartmentId : req.body.DepartmentId,
+                            TypeId : req.body.TypeId,
+                            Email : req.body.Email,
+                            Remarks : req.body.Remarks,
                             UpdatedDate : new Date(),
                             UpdatedById: 1
                         }

@@ -17,8 +17,8 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const LeadHeader = await LeadHeader.find({LeadHeaderId: id})
-            res.status(200).send(LeadHeader)
+            const leadHeader = await LeadHeader.findOne({LeadId: id})
+            res.status(200).send(leadHeader)
         }
         catch(err){
             res.status(500).json({message : err.message})

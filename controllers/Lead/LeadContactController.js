@@ -16,8 +16,19 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const LeadContact = await LeadContact.find({LeadContactId: id})
+            const LeadContact = await LeadContact.findOne({LeadContactId: id})
             res.status(200).send(LeadContact)
+        }
+        catch(err){
+            res.status(500).json({message : err.message})
+        }
+    },
+
+    getByLeadId : async (req,res) => {
+        try{
+            const id = req.params.id;
+            const leadContact = await LeadContact.find({LeadId: id})
+            res.status(200).send(leadContact)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -81,14 +92,14 @@ module.exports = {
                
                 for (const record of records) {
                     var LatestLeadContact = await LeadContact.find().limit(1).sort({ LeadContactId: -1 })
-                    var Id = 1;
+                    var Id = 0;
                     if(LatestLeadContact.length > 0)
                     {
-                        Id = LatestLeadContact[0].LeadId + 1;
+                        Id = LatestLeadContact[0].LeadContactId + 1;
                     }
                     var leadcontact = new LeadContact({
-                        LeadContactId : record.LeadContactId,
-                        LeadId : Id,
+                        LeadContactId : Id,
+                        LeadId : record.LeadId,
                         FirstName : record.FirstName,
                         LastName :record.LastName,
                         Status : record.Status,
@@ -103,7 +114,7 @@ module.exports = {
                       leadcontact = await leadcontact.save()
                 }
             
-                res.status(200).send('Records processed successfully');
+            
               } else {
                 res.status(400).send('Invalid request format. Expecting an array of records.');
               }

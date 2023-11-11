@@ -6,7 +6,9 @@ const ProposalController = require("../../controllers/Lead/ProposalController")
 router.get("/All" , ProposalController.getAll)
  
 router.get("/ByProposalId/:id" , ProposalController.getById)
- 
+
+router.get("/ByLeadId/:id" , ProposalController.getByLeadId)
+
 router.get("/ByName/:searchText/:pageSize/:currentPage", ProposalController.getByname)
 
 router.post("/CreateProposal", ProposalController.CreateProposal)

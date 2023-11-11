@@ -23,6 +23,17 @@ module.exports = {
             res.status(500).json({message : err.message})
         }
     },
+
+    getByLeadId : async (req,res) => {
+        try{
+            const id = req.params.id;
+            const notes = await Note.find({LeadId: id})
+            res.status(200).send(notes)
+        }
+        catch(err){
+            res.status(500).json({message : err.message})
+        }
+    },
     getByname : async (req,res) => {
         try{
 
@@ -84,11 +95,11 @@ module.exports = {
                     var Id = 1;
                     if(LatestNote.length > 0)
                     {
-                        Id = LatestNote[0].LeadId + 1;
+                        Id = LatestNote[0].NoteId + 1;
                     }
                     var note = new Note({
-                        NoteId : record.NoteId,
-                        LeadId : Id,
+                        NoteId : Id,
+                        LeadId : record.LeadId,
                         Date : record.Date,
                         Description : record.Description
                         })

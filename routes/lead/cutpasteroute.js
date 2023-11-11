@@ -6,6 +6,8 @@ const CutPasteController = require("../../controllers/Lead/CutPasteController")
 router.get("/All" , CutPasteController.getAll)
  
 router.get("/ByCutPasteId/:id" , CutPasteController.getById)
+
+router.get("/ByLeadId/:id" , CutPasteController.getByLeadId)
  
 router.get("/ByName/:searchText/:pageSize/:currentPage", CutPasteController.getByname)
 

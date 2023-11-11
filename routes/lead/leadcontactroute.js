@@ -6,7 +6,9 @@ const LeadContactController = require("../../controllers/Lead/LeadContactControl
 router.get("/All" , LeadContactController.getAll)
  
 router.get("/ByLeadContactId/:id" , LeadContactController.getById)
- 
+
+router.get("/ByLeadId/:id" , LeadContactController.getByLeadId)
+
 router.get("/ByName/:searchText/:pageSize/:currentPage", LeadContactController.getByname)
 
 router.post("/CreateLeadContact", LeadContactController.CreateLeadContact)

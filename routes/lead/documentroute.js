@@ -26,6 +26,8 @@ router.get("/ByDocumentId/:id" , DocumentController.getById)
  
 router.get("/ByName/:searchText/:pageSize/:currentPage", DocumentController.getByname)
 
+router.get("/ByLeadId/:id" , DocumentController.getByLeadId)
+
 router.post("/:filename/:filetype/:prefix/:leadId",  upload.single('file'), DocumentController.CreateDocument)
 ,
 router.put("/UpdateDocument", DocumentController.UpdateDocument)
@@ -33,4 +35,4 @@ router.put("/UpdateDocument", DocumentController.UpdateDocument)
 router.delete("/DeleteDocument/:id", DocumentController.DeleteDocument)
  
 module.exports = router 
-
+ 

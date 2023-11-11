@@ -7,7 +7,11 @@ router.get("/All" , NoteController.getAll)
  
 router.get("/ByNoteId/:id" , NoteController.getById)
  
+router.get("/ByLeadId/:id" , NoteController.getByLeadId)
+
 router.get("/ByName/:searchText/:pageSize/:currentPage", NoteController.getByname)
+
+
 
 router.post("/CreateNote", NoteController.CreateNote)
 

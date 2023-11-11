@@ -23,6 +23,17 @@ module.exports = {
             res.status(500).json({message : err.message})
         }
     },
+
+    getByLeadId : async (req,res) => {
+        try{
+            const id = req.params.id;
+            const proposal = await Proposal.find({LeadId: id})
+            res.status(200).send(proposal)
+        }
+        catch(err){
+            res.status(500).json({message : err.message})
+        }
+    },
     getByname : async (req,res) => {
         try{
 
@@ -84,7 +95,7 @@ module.exports = {
                     var Id = 1;
                     if(LatestProposal.length > 0)
                     {
-                        Id = LatestProposal[0].LeadId + 1;
+                        Id = LatestProposal[0].ProposalId + 1;
                     }
                     var proposal = new Proposal({
                         ProposalId : Id,

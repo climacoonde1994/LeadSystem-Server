@@ -1,5 +1,6 @@
 
 const Client = require('../../models/Lead/client')
+const LeadHeader = require('../../models/Lead/leadheader')
 
 module.exports = {
 
@@ -19,6 +20,18 @@ module.exports = {
             const id = req.params.id;
             const client = await Client.find({ClientId: id})
             res.status(200).send(client[0])
+        }
+        catch(err){
+            res.status(500).json({message : err.message})
+        }
+    },
+    
+    getByLeadId : async (req,res) => {
+        try{
+            const id = req.params.id;
+            const leadHeader = await LeadHeader.findOne({LeadId: id})
+            const client = await Client.findOne({ClientId: leadHeader.ClientId})
+            res.status(200).send(client)
         }
         catch(err){
             res.status(500).json({message : err.message})

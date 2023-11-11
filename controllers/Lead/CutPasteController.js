@@ -23,6 +23,17 @@ module.exports = {
             res.status(500).json({message : err.message})
         }
     },
+
+    getByLeadId : async (req,res) => {
+        try{
+            const id = req.params.id;
+            const cutpastes = await CutPaste.find({LeadId: id})
+            res.status(200).send(cutpastes)
+        }
+        catch(err){
+            res.status(500).json({message : err.message})
+        }
+    },
     getByname : async (req,res) => {
         try{
 
@@ -84,7 +95,7 @@ module.exports = {
                     var Id = 1;
                     if(LatestCutPaste.length > 0)
                     {
-                        Id = LatestCutPaste[0].LeadId + 1;
+                        Id = LatestCutPaste[0].CutPasteId + 1;
                     }
 
                   

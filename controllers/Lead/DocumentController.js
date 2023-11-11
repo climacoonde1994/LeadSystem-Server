@@ -23,6 +23,17 @@ module.exports = {
             res.status(500).json({message : err.message})
         }
     },
+
+    getByLeadId : async (req,res) => {
+        try{
+            const id = req.params.id;
+            const documents = await Document.find({LeadId: id})
+            res.status(200).send(documents)
+        }
+        catch(err){
+            res.status(500).json({message : err.message})
+        }
+    },
     getByname : async (req,res) => {
         try{
 

@@ -112,7 +112,7 @@ module.exports = {
                 res.status(400).send('Invalid request format. Expecting an array of records.');
               }
 
-           
+              res.status(201).send(note)
                 
         }
         catch(err){

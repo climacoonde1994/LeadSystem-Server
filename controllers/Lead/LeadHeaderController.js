@@ -123,9 +123,9 @@ module.exports = {
   
         try{
 
-            const leadheader = await LeadHeader.updateOne({ Id:  req.body.Id} , 
+            const leadheader = await LeadHeader.updateOne({ LeadId:  req.body.LeadId} , 
                 { $set :{   LeadId : req.body.LeadId,
-                    ClientId : req.body.ClientId,
+                  
                     LeadNo : req.body.LeadNo,
                     LeadDate : req.body.LeadDate,
                     Status : req.body.Status,
@@ -141,18 +141,16 @@ module.exports = {
                     ActionNeeded : req.body.ActionNeeded,
                     MeetDate : req.body.MeetDate,
                     Remarks : req.body.Remarks,
-                    BestTimeCall : req.body.BestTimeCall,
-                    SpecialtyId : req.body.SpecialtyId,
                     InternetContactList : req.body.InternetContactList,
                     ActionNeededNotes : req.body.ActionNeededNotes,
                     InternetNotes : req.body.InternetNotes,
-                            UpdatedDate : new Date(),
-                            UpdatedById: 1
+                    UpdatedDate : new Date(),
+                    UpdatedById: 1
                         }
                 } )
             
-              
-                res.status(201).send(leadheader)
+                const lead = await LeadHeader.findOne({LeadId: req.body.LeadId})
+                res.status(201).send(lead)
                
         }
         catch(err){

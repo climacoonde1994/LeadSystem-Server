@@ -113,7 +113,7 @@ module.exports = {
                       cutpaste = await cutpaste.save()
                 }
             
-               
+                res.status(201).send(cutpaste)
               } else {
                 res.status(400).send('Invalid request format. Expecting an array of records.');
               }

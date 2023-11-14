@@ -82,6 +82,7 @@ module.exports = {
                     SpecialtyId : Id,
                     Code : req.body.Code,
                     Name : req.body.Name,
+                    Category : req.body.Category,
                     Description : req.body.Description,
                     Enabled : true,
                     Default : false,

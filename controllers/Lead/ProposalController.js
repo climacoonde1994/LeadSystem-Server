@@ -106,7 +106,7 @@ module.exports = {
 
                       proposal = await proposal.save()
                 }
-            
+                res.status(201).send(proposal)
                
               } else {
                 res.status(400).send('Invalid request format. Expecting an array of records.');

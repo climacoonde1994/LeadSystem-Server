@@ -157,8 +157,8 @@ module.exports = {
     DeleteLeadContact : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await LeadContact.deleteOne({LeadContactId:id})
-            res.status(201).send(response)
+            const response = await LeadContact.deleteOne({_id:id})
+            res.status(200).send(response)
         }
         catch(err){
             res.status(400).json({message : err.message})

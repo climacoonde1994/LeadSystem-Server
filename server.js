@@ -17,7 +17,17 @@ module.exports = router
 
 
 db.on('error',(error) => console.error('error')) 
-db.once('open',() => console.log('connected to db'))
+db.once('open',() =>  {
+
+    // console.log('DB Connected');
+    // // add 'const' before 'gfs'
+    // const gfs = Grid(conn.db, mongoose.mongo);
+    // gfs.collection('images')
+
+})
+
+ 
+
 
 app.use(cors({ origin: true }))
 app.use(express.json())

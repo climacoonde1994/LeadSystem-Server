@@ -140,6 +140,7 @@ module.exports = {
                     Comments : req.body.Comments,
                     ActionNeeded : req.body.ActionNeeded,
                     MeetDate : req.body.MeetDate,
+                    BestTimeCall : req.body.BestTimeCall,
                     Remarks : req.body.Remarks,
                     InternetContactList : req.body.InternetContactList,
                     ActionNeededNotes : req.body.ActionNeededNotes,
@@ -160,7 +161,7 @@ module.exports = {
     DeleteLeadHeader : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await LeadHeader.deleteOne({LeadHeaderId:id})
+            const response = await LeadHeader.deleteOne({LeadId:id})
             res.status(201).send(response)
         }
         catch(err){
@@ -168,6 +169,6 @@ module.exports = {
         }
          
     },
-     
+      
 }
  

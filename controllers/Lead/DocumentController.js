@@ -1,5 +1,12 @@
 
 const Document = require('../../models/Lead/document')
+const multer = require('multer')
+ 
+const path = require('path');
+const fs = require('fs');
+
+ 
+
 module.exports = {
 
 
@@ -14,6 +21,17 @@ module.exports = {
     },
 
     getById : async (req,res) => {
+        try{
+            const id = req.params.id;
+            const Document = await Document.find({DocumentId: id})
+            res.status(200).send(Document)
+        }
+        catch(err){
+            res.status(500).json({message : err.message})
+        }
+    },
+
+    getDownloadById : async (req,res) => {
         try{
             const id = req.params.id;
             const Document = await Document.find({DocumentId: id})
@@ -145,6 +163,39 @@ module.exports = {
         }
          
     },
+
+    DownloadDocument : async (req,res) => {
+        try {   
+            const id = req.params.id;
+            const documents = await Document.findOne({_id: id})
+           // return  res.status(200).send(documents.FileName)
+           // return  res.status(200).send( path.join(__dirname+ '../../../'+'routes/lead/Files', documents.FileName))
+            const filePath = path.join(path.join(__dirname+ '../../../'+'routes/lead/Files/'+documents.FileName)); 
+                res.download(filePath, (err) => {
+                    if (err) {
+                        res.status(500).send({
+                            message: filePath
+                        });
+                    }
+            });
+            // console.log(req.params)
+            // gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+            //     if (!file || file.length === 0) {
+            //       return res.status(404).json({ err: 'No file exists' });
+            //     }
+            
+            //     // If file exists
+            //     const readstream = gfs.createReadStream(file.filename);
+            //     readstream.pipe(res);
+            //   });
+        }
+        catch(err){
+            res.status(400).json({message : err.message})
+        }
+         
+    },
+
+    
      
 }
  

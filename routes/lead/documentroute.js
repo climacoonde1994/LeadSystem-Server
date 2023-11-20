@@ -18,11 +18,13 @@ const storage = multer.diskStorage({
     // Sets saved filename(s) to be original filename(s)
   })
   
-  const upload = multer({ storage: storage });
+const upload = multer({ storage: storage });
  
 router.get("/All" , DocumentController.getAll)
  
 router.get("/ByDocumentId/:id" , DocumentController.getById)
+
+router.get("/ByDownloadDocumentId/:id" , DocumentController.DownloadDocument)
  
 router.get("/ByName/:searchText/:pageSize/:currentPage", DocumentController.getByname)
 

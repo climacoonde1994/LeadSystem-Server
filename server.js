@@ -6,8 +6,8 @@ const cors = require("cors")
 const bcrypt =  require("bcrypt")
 const app = express()
 const mongoose  = require("mongoose")
-const multer = require('multer')
 const router = express.Router();
+const session = require('express-session');
 
 mongoose.connect(process.env.DATABASE_URL ,{useNewUrlParser : true})
 
@@ -31,12 +31,18 @@ db.once('open',() =>  {
 
 app.use(cors({ origin: true }))
 app.use(express.json())
+app.use(session({
+    secret: 'your-secret-key',  // Change this to a secure random string
+    resave: false,
+    saveUninitialized: false,
+}));
 
 //accounty routes
-const usersRoute = require('./routes/users')
+
 
 const authenticationRoute = require('./routes/authentication')
 const employeeRoute = require('./routes/Account/employeeroute')
+const usersRoute = require('./routes/Account/userroute')
 //lead routes
 const clientRoute = require('./routes/lead/clientroute')
 const commentRoute = require('./routes/lead/commentroute')

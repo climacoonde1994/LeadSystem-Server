@@ -4,7 +4,7 @@ const express = require("express")
 const bcrypt =  require("bcrypt")
 const router = express.Router()
 const jwt = require("jsonwebtoken")
-const User = require('../models/user')
+const User = require('../models/Account/user')
  
 
 router.get("/", async (req,res) => {
@@ -84,8 +84,8 @@ router.post("/Login",async (req,res) => {
   try
     {  const username = req.body.username
        const password = req.body.password
-       // var user =  await User.findOne({UserName : username,Password : password})
-        var user =  await User.findOne()
+        var user =  await User.findOne({UserName : username,Password : password})
+     
       
        
         if(user != null){
@@ -96,12 +96,14 @@ router.post("/Login",async (req,res) => {
                 token : jwt.sign(JSON.stringify(user), process.env.TOKEN)
                // token : jwt.sign(JSON.stringify(user), process.env.ACCESS_TOKEN_SECRET)
             }
-    
+            req.session.UserId = user._id.toString()
+ 
             res.json({response})
           
         }
         else{
-            res.json({})
+            res.status(400).json({message : "Username/Password doesnt match"})
+           // res.json("Username/Password doesnt match")
         }
        
     }

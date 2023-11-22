@@ -105,18 +105,18 @@ module.exports = {
     UpdateSource : async (req,res) => {
   
         try{
-
+           
             const source = await Source.updateOne({ _id:  req.body.Id} , 
                 { $set :{   SourceId : req.body.SourceId,
                             Code : req.body.Code,
                             Name : req.body.Name,
                             Description : req.body.Description,
                             UpdatedDate : new Date(),
-                            UpdatedById: 1
+                            UpdatedById:  req.session.UserId 
                         }
                 } )
             
-              
+               console.log(req.session.UserId )
                 res.status(201).send(source)
                
         }

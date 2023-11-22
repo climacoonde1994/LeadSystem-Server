@@ -80,10 +80,10 @@ module.exports = {
             }
             var city = new City({
                 CityId : Id,
-                CityId : req.body.CityId,
                 Code : req.body.Code,
                 Name : req.body.Name,
                 ZIP : req.body.ZIP,
+                CountryId : req.body.CountryId,
                 Enabled : true,
                 Default : false,
                 Description : req.body.Description,
@@ -102,11 +102,12 @@ module.exports = {
   
         try{
 
-            const city = await City.updateOne({ Id:  req.body.CityId} , 
+            const city = await City.updateOne({ _id:  req.body.Id} , 
                 { $set :{   CityId : req.body.CityId,
-                            CityId : req.body.CityId,
                             Code : req.body.Code,
                             Name : req.body.Name,
+                            ZIP : req.body.ZIP,
+                            CountryId : req.body.CountryId,
                             Description : req.body.Description,
                             UpdatedDate : new Date(),
                             UpdatedById: 1
@@ -124,7 +125,7 @@ module.exports = {
     DeleteCity : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await City.deleteOne({CityId:id})
+            const response = await City.deleteOne({_id:id})
             res.status(201).send(response)
         }
         catch(err){

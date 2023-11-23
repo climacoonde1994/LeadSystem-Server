@@ -13,6 +13,7 @@ router.post("/CreateEmployee", EmployeeController.CreateEmployee)
 
 router.put("/UpdateEmployee", EmployeeController.UpdateEmployee)
 
+router.put("/EnableEmployee/:id/:enable", EmployeeController.EnableEmployee)
 
 router.delete("/DeleteEmployee/:id", EmployeeController.DeleteEmployee)
  

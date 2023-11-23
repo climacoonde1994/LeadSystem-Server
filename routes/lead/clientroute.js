@@ -15,10 +15,11 @@ router.post("/CreateClient", ClientController.CreateClient)
 
 router.put("/UpdateClient", ClientController.UpdateClient)
 
-
-
+router.put("/EnableClient/:id/:enable", ClientController.EnableClient)
 
 router.delete("/DeleteClient/:id", ClientController.DeleteClient)
+
+
  
 module.exports = router
 

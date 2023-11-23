@@ -100,8 +100,8 @@ module.exports = {
                 Code : req.body.Code,
                 Name : req.body.Name,
                 Description : req.body.Description,
-                Adress1 : req.body.Adress1,
-                Adress2 : req.body.Adress2,
+                Address1 : req.body.Address1,
+                Address2 : req.body.Address2,
                 CityId : req.body.CityId,
                 CountryId : req.body.CountryId,
                 Phone : req.body.Phone,
@@ -128,8 +128,8 @@ module.exports = {
                             Code : req.body.Code,
                             Name : req.body.Name,
                             Description : req.body.Description,
-                            Adress1 : req.body.Adress1,
-                            Adress2 : req.body.Adress2,
+                            Address1 : req.body.Address1,
+                            Address2 : req.body.Address2,
                             CityId : req.body.CityId,
                             CountryId : req.body.CountryId,
                             Phone : req.body.Phone,
@@ -152,14 +152,27 @@ module.exports = {
     DeleteClient : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await Client.deleteOne({ClientId:id})
-            res.status(201).send(response)
+            const client = await Client.deleteOne({_id:id})
+            res.status(201).send(client)
         }
         catch(err){
             res.status(400).json({message : err.message})
         }
          
     },
+
+    EnableClient : async (req,res) => {
+        try 
+        {   
+            id = req.params.id
+            enable = req.params.enable
+            const client = await Client.updateOne({ _id:  id} ,   { $set :{   Enabled :  enable }} )
+            res.status(201).send(client)
+        }
+        catch(err){
+            res.status(400).json({message : err.message})
+        }
+    },
      
 }
- 
+  

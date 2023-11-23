@@ -93,7 +93,7 @@ module.exports = {
                 LastName : req.body.LastName,
                 Suffix : req.body.Suffix,
                 Position : req.body.Position,
-                Department : req.body.Department,
+                DepartmentId : req.body.DepartmentId,
                 Adress1 : req.body.Adress1,
                 Adress2 : req.body.Adress2,
                 CityId : req.body.CityId,
@@ -114,20 +114,21 @@ module.exports = {
     UpdateEmployee : async (req,res) => {
   
         try{
-
-            const employee = await Employee.updateOne({ Id:  req.body.Id} , 
-                { $set :{    EmployeeId : req.body.EmployeeId,
-                            Code : req.body.Code,
-                            Name : req.body.Name,
-                            Description : req.body.Description,
+            const employee = await Employee.updateOne({ _id:  req.body.Id} , 
+                { $set :{   
+                            FullName : req.body.FirstName +  ' ' + req.body.LastName,
+                            FirstName : req.body.FirstName,
+                            MiddleName : req.body.MiddleName,
+                            LastName : req.body.LastName,
+                            Suffix : req.body.Suffix,
+                            Position : req.body.Position,
+                            DepartmentId : req.body.DepartmentId,
                             Adress1 : req.body.Adress1,
                             Adress2 : req.body.Adress2,
                             CityId : req.body.CityId,
                             CountryId : req.body.CountryId,
                             Phone : req.body.Phone,
-                            FAX : req.body.FAX,
-                            URL : req.body.URL,
-                            GMTOffset : req.body.GMTOffset,
+                            Email : req.body.Email,
                             UpdatedDate : new Date(),
                             UpdatedById: 1
                         }
@@ -141,10 +142,22 @@ module.exports = {
             res.status(500).json({message : err.message})
         }
     },
+    EnableEmployee : async (req,res) => {
+        try 
+        {   
+            id = req.params.id
+            enable = req.params.enable
+            const employee = await Employee.updateOne({ _id:  id} ,   { $set :{   Enabled :  enable }} )
+            res.status(201).send(employee)
+        }
+        catch(err){
+            res.status(400).json({message : err.message})
+        }
+    },
     DeleteEmployee : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await Employee.deleteOne({EmployeeId:id})
+            const response = await Employee.deleteOne({_id:id})
             res.status(201).send(response)
         }
         catch(err){

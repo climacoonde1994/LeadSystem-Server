@@ -18,7 +18,7 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const employee = await Employee.find({EmployeeId: id})
+            const employee = await Employee.find({_id: id})
             res.status(200).send(employee[0])
         }
         catch(err){
@@ -94,8 +94,8 @@ module.exports = {
                 Suffix : req.body.Suffix,
                 Position : req.body.Position,
                 DepartmentId : req.body.DepartmentId,
-                Adress1 : req.body.Adress1,
-                Adress2 : req.body.Adress2,
+                Address1 : req.body.Address1,
+                Address2 : req.body.Address2,
                 CityId : req.body.CityId,
                 CountryId : req.body.CountryId,
                 Phone : req.body.Phone,
@@ -123,8 +123,8 @@ module.exports = {
                             Suffix : req.body.Suffix,
                             Position : req.body.Position,
                             DepartmentId : req.body.DepartmentId,
-                            Adress1 : req.body.Adress1,
-                            Adress2 : req.body.Adress2,
+                            Address1 : req.body.Address1,
+                            Address2 : req.body.Address2,
                             CityId : req.body.CityId,
                             CountryId : req.body.CountryId,
                             Phone : req.body.Phone,

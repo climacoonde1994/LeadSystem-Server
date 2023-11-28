@@ -24,6 +24,7 @@ const LeadHeaderSchema = new mongoose.Schema({
     InternetContactList:  {type: String},
     ActionNeededNotes:  {type: String},
     InternetNotes:  {type: String},
+    Specialty :  {type: Array},
     CreatedDate: {type : Date , required : false},
     CreatedById: {type: Number},
     UpdatedDate: {type : Date , required : false},

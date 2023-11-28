@@ -73,8 +73,6 @@ module.exports = {
 
  
     CreateLeadHeader : async (req,res) => {
-
-        console.log(req)
         try{
 
             var LatestLeadHeader = await LeadHeader.find().limit(1).sort({ LeadId: -1 })
@@ -104,7 +102,7 @@ module.exports = {
                 MeetDate : req.body.MeetDate,
                 Remarks : req.body.Remarks,
                 BestTimeCall : req.body.BestTimeCall,
-                SpecialtyId : req.body.SpecialtyId,
+                Specialty : req.body.Specialty,
                 InternetContactList : req.body.InternetContactList,
                 ActionNeededNotes : req.body.ActionNeededNotes,
                 InternetNotes : req.body.InternetNotes,
@@ -125,7 +123,6 @@ module.exports = {
 
             const leadheader = await LeadHeader.updateOne({ LeadId:  req.body.LeadId} , 
                 { $set :{   LeadId : req.body.LeadId,
-                  
                     LeadNo : req.body.LeadNo,
                     LeadDate : req.body.LeadDate,
                     Status : req.body.Status,
@@ -145,6 +142,7 @@ module.exports = {
                     InternetContactList : req.body.InternetContactList,
                     ActionNeededNotes : req.body.ActionNeededNotes,
                     InternetNotes : req.body.InternetNotes,
+                    Specialty : req.body.Specialty,
                     UpdatedDate : new Date(),
                     UpdatedById: 1
                         }

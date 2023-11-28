@@ -72,8 +72,14 @@ module.exports = {
  
     CreateComment : async (req,res) => {
         try{
+            var LatestComment = await Comment.find().limit(1).sort({ CommentId: -1 })
+            var Id = 1;
+            if(LatestComment.length > 0)
+            {
+                Id = LatestComment[0].CommentId + 1;
+            } 
             const comment = new Comment({
-                CommentId : req.body.CommentId,
+                CommentId : Id,
                 LeadId : req.body.LeadId,
                 Comment : req.body.Comment,
                 Date : req.body.Date,

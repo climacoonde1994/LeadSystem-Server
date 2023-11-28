@@ -106,6 +106,7 @@ module.exports = {
                 { $set :{   SpecialtyId : req.body.SpecialtyId,
                             Code : req.body.Code,
                             Name : req.body.Name,
+                            Category : req.body.Category,
                             Description : req.body.Description,
                             UpdatedDate : new Date(),
                             UpdatedById: 1

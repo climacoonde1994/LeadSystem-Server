@@ -5,8 +5,10 @@ const EmployeeController = require("../../controllers/Account/EmployeeController
  
 router.get("/All" , EmployeeController.getAll)
  
-router.get("/ByEmployeeId/:id" , EmployeeController.getById)
- 
+router.get("/ById/:id" , EmployeeController.getById)
+
+router.get("/ByEmployeeId/:id" , EmployeeController.getByEmployeeId)
+
 router.get("/ByName/:searchText/:pageSize/:currentPage", EmployeeController.getByname)
 
 router.post("/CreateEmployee", EmployeeController.CreateEmployee)

@@ -25,6 +25,16 @@ module.exports = {
             res.status(500).json({message : err.message})
         }
     },
+    getByEmployeeId : async (req,res) => {
+        try{
+            const id = req.params.id;
+            const employee = await Employee.find({EmployeeId: id})
+            res.status(200).send(employee[0])
+        }
+        catch(err){
+            res.status(500).json({message : err.message})
+        }
+    },
     getByname : async (req,res) => {
         try{
 

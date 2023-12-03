@@ -105,6 +105,7 @@ module.exports = {
                 CityId : req.body.CityId,
                 CountryId : req.body.CountryId,
                 Phone : req.body.Phone,
+                Enabled : true,
                 FAX : req.body.FAX,
                 URL : req.body.URL,
                 GMTOffset : req.body.GMTOffset,
@@ -123,7 +124,7 @@ module.exports = {
   
         try{
 
-            const client = await Client.updateOne({ Id:  req.body.Id} , 
+            const client = await Client.updateOne({ _id:  req.body.Id} , 
                 { $set :{    ClientId : req.body.ClientId,
                             Code : req.body.Code,
                             Name : req.body.Name,

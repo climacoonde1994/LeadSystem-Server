@@ -5,6 +5,7 @@ const NoteSchema = new mongoose.Schema({
     LeadId :  {type: Number, required: true},
     Date:  {type: Date, required: true},
     Description:  {type: String, required: true},
+    Author:  {type: String },
     CreatedDate: {type : Date , required : false},
     CreatedById: {type: Number},
     });

@@ -17,7 +17,7 @@ const LeadHeaderSchema = new mongoose.Schema({
     Quality:  {type: String},
     Likelihood : {type: String},
     Comments : {type: Number},
-    ActionNeeded: {type: String},
+    ActionNeeded: {type: Boolean},
     MeetDate:  {type: String},
     BestTimeCall:  {type: String},
     Remarks:  {type: String},

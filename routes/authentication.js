@@ -1,10 +1,10 @@
 require('dotenv').config()
-
 const express = require("express")
 const bcrypt =  require("bcrypt")
 const router = express.Router()
 const jwt = require("jsonwebtoken")
 const User = require('../models/Account/user')
+const Employee = require('../models/Account/employee')
  
 
 router.get("/", async (req,res) => {
@@ -89,21 +89,19 @@ router.post("/Login",async (req,res) => {
       
        
         if(user != null){
-         
+            var employee =  await Employee.findOne({FirstName : user.FirstName,LastName : user.LastName})
             var response = {
                 succeeded : true,
-                data : {User : user},
+                data : {User : user ,Employee :  employee},
                 token : jwt.sign(JSON.stringify(user), process.env.TOKEN)
-               // token : jwt.sign(JSON.stringify(user), process.env.ACCESS_TOKEN_SECRET)
+
             }
-            req.session.UserId = user._id.toString()
+          
  
             res.json({response})
-          
         }
         else{
             res.status(400).json({message : "Username/Password doesnt match"})
-           // res.json("Username/Password doesnt match")
         }
        
     }

@@ -27,7 +27,7 @@ module.exports = {
     getByLeadId : async (req,res) => {
         try{
             const id = req.params.id;
-            const notes = await Note.find({LeadId: id})
+            const notes = await Note.find({LeadId: id}).sort({ Date: -1 })
             res.status(200).send(notes)
         }
         catch(err){
@@ -101,7 +101,8 @@ module.exports = {
                         NoteId : Id,
                         LeadId : record.LeadId,
                         Date : record.Date,
-                        Description : record.Description
+                        Description : record.Description,
+                        Author : record.Author,
                         })
 
                       note = await note.save()

@@ -5,6 +5,7 @@ const LeadHeaderSchema = new mongoose.Schema({
     LeadId : {type: Number, required: true},
     ClientId : {type: Number, required: true},
     ClientName : {type: String, required: true},
+    Description: {type: String, required: true},
     LeadNo: {type: String, required: true},
     LeadDate:  {type: String, required: true},
     Status : {type: String, required: true},

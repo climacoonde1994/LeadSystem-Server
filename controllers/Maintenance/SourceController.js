@@ -92,7 +92,7 @@ module.exports = {
                     Default : false,
                     Description : req.body.Description,
                     CreatedDate : new Date(),
-                    CreatedById: 1,
+                    CreatedById: CreatedById,
                 })
                 source = await source.save()
                 res.status(201).send(source)
@@ -112,7 +112,7 @@ module.exports = {
                             Name : req.body.Name,
                             Description : req.body.Description,
                             UpdatedDate : new Date(),
-                            UpdatedById:  req.session.UserId 
+                            UpdatedById:  UpdatedById 
                         }
                 } )
             

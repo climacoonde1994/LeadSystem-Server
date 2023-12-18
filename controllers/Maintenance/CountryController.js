@@ -88,7 +88,7 @@ module.exports = {
                     Default : false,
                     Description : req.body.Description,
                     CreatedDate : new Date(),
-                    CreatedById: 1,
+                    CreatedById: req.body.CreatedById,
                 })
                 country = await country.save()
                 res.status(201).send(country)

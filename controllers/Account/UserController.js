@@ -88,7 +88,7 @@ module.exports = {
                 UserType : req.body.UserType,
                 Status : req.body.Status,
                 CreatedDate : new Date(),
-                CreatedById: 1,
+                CreatedById: req.body.CreatedById,
                 })
                 user = await user.save()
                 res.status(201).send(user)
@@ -117,7 +117,7 @@ module.exports = {
                     UserType : req.body.UserType,
                     Status : req.body.Status,
                     UpdatedDate : new Date(),
-                    UpdatedById: 1
+                    UpdatedById:   req.body.UpdatedById 
                         }
                 } )
             

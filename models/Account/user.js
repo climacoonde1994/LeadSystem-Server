@@ -12,9 +12,9 @@ const userSchema = new mongoose.Schema({
     Mobile : {type : String , required : false},
     Status : {type : String , required : false},
     CreatedDate: {type : Date , required : false},
-    CreatedById: {type: Number},
+    CreatedById: {type: String},
     UpdatedDate: {type : Date , required : false},
-    UpdatedById: {type: String},
+    UpdatedById: {type: String}
 })
 
 module.exports = mongoose.model('user',userSchema)

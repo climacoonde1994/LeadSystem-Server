@@ -110,7 +110,7 @@ module.exports = {
                 URL : req.body.URL,
                 GMTOffset : req.body.GMTOffset,
                 CreatedDate : new Date(),
-                CreatedById: 1,
+                CreatedById: req.body.CreatedById,
                 })
                 client = await client.save()
                 res.status(201).send(client)
@@ -138,7 +138,7 @@ module.exports = {
                             URL : req.body.URL,
                             GMTOffset : req.body.GMTOffset,
                             UpdatedDate : new Date(),
-                            UpdatedById: 1
+                            UpdatedById:   req.body.UpdatedById 
                         }
                 } )
             

@@ -17,9 +17,9 @@ const EmployeeSchema = new mongoose.Schema({
     Phone: {type: String},
     Enabled : {type : Boolean },
     CreatedDate: {type : Date , required : false},
-    CreatedById: {type: Number},
+    CreatedById: {type: String},
     UpdatedDate: {type : Date , required : false},
-    UpdatedById: {type: Number}
+    UpdatedById: {type: String}
 });
 
 module.exports = mongoose.model('employee',EmployeeSchema)

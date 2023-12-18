@@ -92,7 +92,7 @@ module.exports = {
                     Default : false,
                     Description : req.body.Description,
                     CreatedDate : new Date(),
-                    CreatedById: CreatedById,
+                    CreatedById: req.body.CreatedById,
                 })
                 source = await source.save()
                 res.status(201).send(source)
@@ -112,13 +112,10 @@ module.exports = {
                             Name : req.body.Name,
                             Description : req.body.Description,
                             UpdatedDate : new Date(),
-                            UpdatedById:  UpdatedById 
+                            UpdatedById:   req.body.UpdatedById 
                         }
                 } )
-            
-               console.log(req.session.UserId )
-                res.status(201).send(source)
-               
+                res.status(201).send(source)   
         }
         catch(err){
             res.status(500).json({message : err.message})

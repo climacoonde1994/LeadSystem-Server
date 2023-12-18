@@ -88,7 +88,7 @@ module.exports = {
                     Default : false,
                     Description : req.body.Description,
                     CreatedDate : new Date(),
-                    CreatedById: 1,
+                    CreatedById: req.body.CreatedById,
                 })
                 department = await department.save()
                 res.status(201).send(department)
@@ -108,7 +108,7 @@ module.exports = {
                             Name : req.body.Name,
                             Description : req.body.Description,
                             UpdatedDate : new Date(),
-                            UpdatedById: 1
+                            UpdatedById:   req.body.UpdatedById 
                         }
                 } )
             

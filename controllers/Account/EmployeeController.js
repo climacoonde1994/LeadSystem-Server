@@ -111,7 +111,7 @@ module.exports = {
                 Phone : req.body.Phone,
                 Email : req.body.Email,
                 CreatedDate : new Date(),
-                CreatedById: 1,
+                CreatedById: req.body.CreatedById,
                 })
                 employee = await employee.save()
                 res.status(201).send(employee)
@@ -140,7 +140,7 @@ module.exports = {
                             Phone : req.body.Phone,
                             Email : req.body.Email,
                             UpdatedDate : new Date(),
-                            UpdatedById: 1
+                            UpdatedById:   req.body.UpdatedById 
                         }
                 } )
             

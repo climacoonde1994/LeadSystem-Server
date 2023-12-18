@@ -16,7 +16,7 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const contact = await Contact.find({ContactId: id})
+            const contact = await Contact.find({_id: id})
             res.status(200).send(contact[0])
         }
         catch(err){
@@ -27,7 +27,7 @@ module.exports = {
         try{
 
             const searchText = req.params.searchText;
-            const pageNumber = req.params.currentPage;
+            const pageNumber = req.params.currentPage; 
             const pageSize = req.params.pageSize;
             const skip = (pageNumber - 1) * pageSize;
             if(searchText.length > 0)
@@ -80,15 +80,17 @@ module.exports = {
             }
             var contact = new Contact({
                 ContactId : Id,
-                Code : req.body.Code,
-                Name : req.body.Name,
-                ZIP : req.body.ZIP,
-                CountryId : req.body.CountryId,
-                Enabled : true,
-                Default : false,
-                Description : req.body.Description,
+                Salutation : req.body.Salutation,
+                FullName : req.body.FirstName + ' ' +req.body.LastName,
+                FirstName : req.body.FirstName,
+                LastName :req.body.LastName,
+                Status : req.body.Status,
+                Department : req.body.Department,
+                SystemType : req.body.SystemType,
+                Email : req.body.Email,
+                Remarks : req.body.Remarks,
                 CreatedDate : new Date(),
-                CreatedById: 1,
+                CreatedById: req.body.CreatedById,
                 })
                 contact = await contact.save()
                 res.status(201).send(contact)
@@ -103,14 +105,20 @@ module.exports = {
         try{
 
             const contact = await Contact.updateOne({ _id:  req.body.Id} , 
-                { $set :{   ContactId : req.body.ContactId,
-                            Code : req.body.Code,
-                            Name : req.body.Name,
-                            ZIP : req.body.ZIP,
-                            CountryId : req.body.CountryId,
-                            Description : req.body.Description,
+                { $set :{   
+                            Salutation : req.body.Salutation,
+                            FullName : req.body.FirstName + ' ' +req.body.LastName,
+                            FirstName : req.body.FirstName,
+                            LastName :req.body.LastName,
+                            Status : req.body.Status,
+                            Department : req.body.Department,
+                            SystemType : req.body.SystemType,
+                            DepartmentId: req.body.DepartmentId,
+                            SystemTypeId: req.body.SystemTypeId,
+                            Email : req.body.Email,
+                            Remarks : req.body.Remarks,
                             UpdatedDate : new Date(),
-                            UpdatedById: 1
+                            UpdatedById:   req.body.UpdatedById 
                         }
                 } )
             

@@ -60,7 +60,7 @@ const departmentRoute = require('./routes/maintenance/departmentroute')
 const sourceRoute = require('./routes/maintenance/sourceroute')
 const specialtyRoute = require('./routes/maintenance/specialtyroute')
 const systemtypeRoute = require('./routes/maintenance/systemtyperoute')
-
+const contactRoute = require('./routes/maintenance/contactroute')
 
 //maintenance end points
 app.use('/api/city' , cityRoute) 
@@ -69,6 +69,7 @@ app.use('/api/department', departmentRoute)
 app.use('/api/source', sourceRoute)
 app.use('/api/specialty', specialtyRoute)
 app.use('/api/systemtype', systemtypeRoute)
+app.use('/api/contact' , contactRoute) 
 
 //lead end points
 app.use('/api/client' , clientRoute) 

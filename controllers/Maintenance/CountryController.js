@@ -108,7 +108,7 @@ module.exports = {
                             Name : req.body.Name,
                             Description : req.body.Description,
                             UpdatedDate : new Date(),
-                            UpdatedById: 1
+                            UpdatedById:   req.body.UpdatedById 
                         }
                 } )
             

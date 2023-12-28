@@ -102,13 +102,8 @@ module.exports = {
     UpdateUser : async (req,res) => {
   
         try{
-
-         
-        
-
             const user = await User.updateOne({ _id:  req.body.Id} , 
-                { $set :{    UserName : req.body.UserId,
-                    Password : req.body.Code,
+                { $set :{  
                     FirstName : req.body.FirstName,
                     FullName : req.body.FirstName +  ' ' + req.body.LastName,
                     LastName : req.body.LastName,
@@ -162,6 +157,23 @@ module.exports = {
             let r = (Math.random() + 1).toString(36).substring(3);
             const user = await User.updateOne({ _id:  id} ,   { $set :{   Password :  r }} )
             res.status(201).send(user)
+        }
+        catch(err){
+            res.status(400).json({message : err.message})
+        }
+    },
+
+    ChangePassword : async (req,res) => {
+        try 
+        {   
+            const user = await User.updateOne({ _id:  req.body.Id} , 
+                { $set :{   
+                    UserName : req.body.UserName,
+                    Password : req.body.Password,
+                        }
+                } )
+            
+                res.status(201).send(user)
         }
         catch(err){
             res.status(400).json({message : err.message})

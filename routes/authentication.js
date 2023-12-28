@@ -84,7 +84,7 @@ router.post("/Login",async (req,res) => {
   try
     {  const username = req.body.username
        const password = req.body.password
-        var user =  await User.findOne({UserName : username,Password : password})
+        var user =  await User.findOne({UserName : username,Password : password, Enabled : true})
      
       
        

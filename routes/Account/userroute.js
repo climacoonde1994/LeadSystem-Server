@@ -17,8 +17,9 @@ router.put("/EnableUser/:id/:enable", UserController.EnableUser)
 
 router.delete("/DeleteUser/:id", UserController.DeleteUser)
 
-
 router.delete("/ResetUser/:id", UserController.ResetUser)
+
+router.put("/ChangePassword", UserController.ChangePassword)
 
 module.exports = router
 

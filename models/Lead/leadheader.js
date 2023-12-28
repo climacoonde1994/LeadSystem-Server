@@ -10,6 +10,8 @@ const LeadHeaderSchema = new mongoose.Schema({
     LeadDate:  {type: String, required: true},
     Status : {type: String, required: true},
     StatusComment : {type: String},
+    SalesPerson: {type: String },
+    SalesPerson2: {type: String },
     SalesPersonId: {type: Number, required: true},
     FollowUpDate:  {type: String, required: true},
     SalesPersonId2 : {type: Number},

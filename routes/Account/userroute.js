@@ -13,8 +13,12 @@ router.post("/CreateUser", UserController.CreateUser)
 
 router.put("/UpdateUser", UserController.UpdateUser)
 
+router.put("/EnableUser/:id/:enable", UserController.EnableUser)
 
 router.delete("/DeleteUser/:id", UserController.DeleteUser)
- 
+
+
+router.delete("/ResetUser/:id", UserController.ResetUser)
+
 module.exports = router
 

@@ -84,6 +84,7 @@ module.exports = {
                 LastName : req.body.LastName,
                 MiddleName : req.body.MiddleName,
                 Email : req.body.Email,
+                Enabled : true,
                 Mobile : req.body.Mobile,
                 UserType : req.body.UserType,
                 Status : req.body.Status,
@@ -132,13 +133,39 @@ module.exports = {
     DeleteUser : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await User.deleteOne({UserId:id})
+            const response = await User.deleteOne({_id:id})
             res.status(201).send(response)
         }
         catch(err){
             res.status(400).json({message : err.message})
         }
          
+    },
+    
+    EnableUser : async (req,res) => {
+        try 
+        {   
+            id = req.params.id
+            enable = req.params.enable
+            const user = await User.updateOne({ _id:  id} ,   { $set :{   Enabled :  enable }} )
+            res.status(201).send(user)
+        }
+        catch(err){
+            res.status(400).json({message : err.message})
+        }
+    },
+
+    ResetUser : async (req,res) => {
+        try 
+        {   
+            id = req.params.id
+            let r = (Math.random() + 1).toString(36).substring(3);
+            const user = await User.updateOne({ _id:  id} ,   { $set :{   Password :  r }} )
+            res.status(201).send(user)
+        }
+        catch(err){
+            res.status(400).json({message : err.message})
+        }
     },
      
 }

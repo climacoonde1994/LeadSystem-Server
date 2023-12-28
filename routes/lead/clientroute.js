@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken")
 const ClientController = require("../../controllers/Lead/ClientController")
  
 router.get("/All" , ClientController.getAll)
+
+router.get("/Active" , ClientController.getAllActive)
  
 router.get("/ByClientId/:id" , ClientController.getById)
 

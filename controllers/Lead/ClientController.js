@@ -14,6 +14,15 @@ module.exports = {
             res.status(500).json({message : err.message})
         }
     },
+    getAllActive : async (req,res) => {
+        try{
+            const Clients = await Client.find({Enabled : true})
+            res.status(200).send(Clients)
+        }
+        catch(err){
+            res.status(500).json({message : err.message})
+        }
+    },
 
     getById : async (req,res) => {
         try{

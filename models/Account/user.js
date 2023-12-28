@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
     LastName : {type : String , required : true},
     Mobile : {type : String , required : false},
     Status : {type : String , required : false},
+    Enabled : {type : Boolean },
     CreatedDate: {type : Date , required : false},
     CreatedById: {type: String},
     UpdatedDate: {type : Date , required : false},

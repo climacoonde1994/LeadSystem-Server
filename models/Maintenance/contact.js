@@ -13,6 +13,7 @@ const ContacSchema = new mongoose.Schema({
     SystemType: {type: String},
     Email: {type: String},
     Remarks: {type: String},
+    Enabled : {type : Boolean},
     CreatedDate: {type : Date , required : false},
     CreatedById: {type: String},
     UpdatedDate: {type : Date , required : false},

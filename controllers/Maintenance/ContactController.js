@@ -13,6 +13,17 @@ module.exports = {
         }
     },
 
+    
+    getAllActive : async (req,res) => {
+        try{
+            const Contacts = await Contact.find({Enabled : true})
+            res.status(200).send(Contacts)
+        }
+        catch(err){
+            res.status(500).json({message : err.message})
+        }
+    },
+
     getById : async (req,res) => {
         try{
             const id = req.params.id;
@@ -84,6 +95,7 @@ module.exports = {
                 FullName : req.body.FirstName + ' ' +req.body.LastName,
                 FirstName : req.body.FirstName,
                 LastName :req.body.LastName,
+                Enabled : true,
                 Status : req.body.Status,
                 Department : req.body.Department,
                 SystemType : req.body.SystemType,

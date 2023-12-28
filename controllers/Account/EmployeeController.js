@@ -106,6 +106,7 @@ module.exports = {
                 DepartmentId : req.body.DepartmentId,
                 Address1 : req.body.Address1,
                 Address2 : req.body.Address2,
+                Enabled : true,
                 CityId : req.body.CityId,
                 CountryId : req.body.CountryId,
                 Phone : req.body.Phone,

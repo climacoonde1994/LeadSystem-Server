@@ -1,5 +1,6 @@
 
 const LeadHeader = require('../../models/Lead/leadheader')
+const Employee = require('../../models/Account/employee')
 module.exports = {
 
 
@@ -7,6 +8,8 @@ module.exports = {
         try{
             
             const LeadHeaders = await LeadHeader.find()
+           
+           
             res.status(200).send(LeadHeaders)
         }
         catch(err){
@@ -74,7 +77,7 @@ module.exports = {
  
     CreateLeadHeader : async (req,res) => {
         try{
-
+            const employee = await Employee.find({EmployeeId: req.body.SalesPersonId})
             var LatestLeadHeader = await LeadHeader.find().limit(1).sort({ LeadId: -1 })
             var Id = 1;
             if(LatestLeadHeader.length > 0)
@@ -91,6 +94,7 @@ module.exports = {
                 LeadDate : req.body.LeadDate,
                 Status : req.body.Status,
                 StatusComment : req.body.StatusComment,
+                SalesPerson:  employee[0].FullName,
                 SalesPersonId : req.body.SalesPersonId,
                 FollowUpDate : req.body.FollowUpDate,
                 SalesPersonId2 : req.body.SalesPersonId2,
@@ -122,6 +126,9 @@ module.exports = {
   
         try{
 
+        
+            const employee = await Employee.find({EmployeeId: req.body.SalesPersonId})
+          
             const leadheader = await LeadHeader.updateOne({ LeadId:  req.body.LeadId} , 
                 { $set :{   LeadId : req.body.LeadId,
                     LeadNo : req.body.LeadNo,
@@ -134,6 +141,7 @@ module.exports = {
                     SalesPersonId2 : req.body.SalesPersonId2,
                     FollowUpDate2 : req.body.FollowUpDate2,
                     SourceId : req.body.SourceId,
+                    SalesPerson:  employee[0].FullName,
                     Quality : req.body.Quality,
                     Likelihood : req.body.Likelihood,
                     Comments : req.body.Comments,
@@ -172,3 +180,6 @@ module.exports = {
       
 }
  
+function isNullOrEmpty(value) {
+    return value === null || value === undefined || value === '';
+}

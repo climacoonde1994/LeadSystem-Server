@@ -77,21 +77,30 @@ module.exports = {
             {
                 Id = LatestUserType[0].UserTypeId + 1;
             }
-          
-    
-            var usertype = new UserType({
-                    UserTypeId : Id,
-                    Code : req.body.Code,
-                    Name : req.body.Name,
-                    Description : req.body.Description,
-                    Enabled : true,
-                    Default : false,
-                    Description : req.body.Description,
-                    CreatedDate : new Date(),
-                    CreatedById: req.body.CreatedById,
+
+            
+            var UserTypeExist =  await UserType.findOne({Code: req.body.Code })
+            if(UserTypeExist != null)
+            {
+                res.status(200).send({message : ['UserType Already exist'] , success : false  })
+            }
+            else
+            {
+                var usertype = new UserType({
+                UserTypeId : Id,
+                Code : req.body.Code,
+                Name : req.body.Name,
+                Description : req.body.Description,
+                Enabled : true,
+                Default : false,
+                Description : req.body.Description,
+                CreatedDate : new Date(),
+                CreatedById: req.body.CreatedById,
                 })
                 usertype = await usertype.save()
-                res.status(201).send(usertype)
+                res.status(201).send({message : '' , success : true  })
+
+            }
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -102,19 +111,24 @@ module.exports = {
   
         try{
 
-            const usertype = await UserType.updateOne({ _id:  req.body.Id} , 
-                { $set :{   UserTypeId : req.body.UserTypeId,
-                            Code : req.body.Code,
-                            Name : req.body.Name,
-                            Description : req.body.Description,
-                            UpdatedDate : new Date(),
-                            UpdatedById:   req.body.UpdatedById 
-                        }
-                } )
-            
-              
-                res.status(201).send(usertype)
-               
+            var UserTypeExist =  await UserType.findOne({Code: req.body.Code })
+            if(UserTypeExist != null && UserTypeExist._id.toString() != req.body.Id )
+            {
+                res.status(200).send({message : ['UserType Already exist'] , success : false  })
+            }
+            else
+            {    
+                const usertype = await UserType.updateOne({ _id:  req.body.Id} , 
+                    { $set :{   UserTypeId : req.body.UserTypeId,
+                                Code : req.body.Code,
+                                Name : req.body.Name,
+                                Description : req.body.Description,
+                                UpdatedDate : new Date(),
+                                UpdatedById:   req.body.UpdatedById 
+                            }
+                    } )
+                res.status(201).send({message : '' , success : true  }) 
+            }       
         }
         catch(err){
             res.status(500).json({message : err.message})

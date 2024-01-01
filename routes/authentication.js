@@ -84,11 +84,12 @@ router.post("/Login",async (req,res) => {
   try
     {  const username = req.body.username
        const password = req.body.password
-        var user =  await User.findOne({UserName : username,Password : password, Enabled : true})
-     
-      
-       
-        if(user != null){
+        var user =  await User.findOne({UserName : username , Enabled : true})
+
+        if(user != null && ((user.IsTempPassword &&  user.TemporaryPassword == password) || (!user.IsTempPassword &&  user.Password == password)))
+        {
+         
+           
             var employee =  await Employee.findOne({FirstName : user.FirstName,LastName : user.LastName})
             var response = {
                 succeeded : true,
@@ -96,8 +97,6 @@ router.post("/Login",async (req,res) => {
                 token : jwt.sign(JSON.stringify(user), process.env.TOKEN)
 
             }
-          
- 
             res.json({response})
         }
         else{

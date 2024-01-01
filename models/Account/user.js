@@ -12,6 +12,8 @@ const userSchema = new mongoose.Schema({
     Mobile : {type : String , required : false},
     Status : {type : String , required : false},
     Enabled : {type : Boolean },
+    IsTempPassword : {type : Boolean },
+    TemporaryPassword : {type : String },
     CreatedDate: {type : Date , required : false},
     CreatedById: {type: String},
     UpdatedDate: {type : Date , required : false},

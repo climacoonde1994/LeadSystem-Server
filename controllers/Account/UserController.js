@@ -76,23 +76,34 @@ module.exports = {
  
     CreateUser : async (req,res) => {
         try{
-            var user = new User({
-                UserName : req.body.UserName,
-                Password : req.body.Password,
-                FirstName : req.body.FirstName,
-                FullName : req.body.FirstName +  ' ' + req.body.LastName,
-                LastName : req.body.LastName,
-                MiddleName : req.body.MiddleName,
-                Email : req.body.Email,
-                Enabled : true,
-                Mobile : req.body.Mobile,
-                UserType : req.body.UserType,
-                Status : req.body.Status,
-                CreatedDate : new Date(),
-                CreatedById: req.body.CreatedById,
-                })
-                user = await user.save()
-                res.status(201).send(user)
+            var UserExist =  await User.findOne({FirstName: req.body.FirstName } ,{LastName: req.body.LastName   })
+            if(UserExist != null)
+            {
+                res.status(200).send({message : ['User Already exist'] , success : false  })
+            }
+            else
+            {
+                let r = (Math.random() + 1).toString(36).substring(3);
+                var user = new User({
+                    UserName : req.body.UserName,
+                    TemporaryPassword : r,
+                    IsTempPassword : true,
+                    Password : '********',
+                    FirstName : req.body.FirstName,
+                    FullName : req.body.FirstName +  ' ' + req.body.LastName,
+                    LastName : req.body.LastName,
+                    MiddleName : req.body.MiddleName,
+                    Email : req.body.Email,
+                    Enabled : true,
+                    Mobile : req.body.Mobile,
+                    UserType : req.body.UserType,
+                    Status : req.body.Status,
+                    CreatedDate : new Date(),
+                    CreatedById: req.body.CreatedById,
+                    })
+                    user = await user.save()
+                    res.status(201).send({message : '' , success : true  }) 
+            }
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -102,23 +113,31 @@ module.exports = {
     UpdateUser : async (req,res) => {
   
         try{
-            const user = await User.updateOne({ _id:  req.body.Id} , 
-                { $set :{  
-                    FirstName : req.body.FirstName,
-                    FullName : req.body.FirstName +  ' ' + req.body.LastName,
-                    LastName : req.body.LastName,
-                    MiddleName : req.body.MiddleName,
-                    Email : req.body.Email,
-                    Mobile : req.body.Mobile,
-                    UserType : req.body.UserType,
-                    Status : req.body.Status,
-                    UpdatedDate : new Date(),
-                    UpdatedById:   req.body.UpdatedById 
+
+            var UserExist =  await User.findOne({UserName: req.body.UserName })
+            if(UserExist != null && UserExist._id.toString() != req.body.Id ){
+                res.status(200).send({message : ['User Name Already exist'] , success : false  })
+            }
+            else
+            {
+                const user = await User.updateOne({ _id:  req.body.Id} , 
+                    { $set :{  
+                        UserName: req.body.UserName,
+                        FirstName : req.body.FirstName,
+                        FullName : req.body.FirstName +  ' ' + req.body.LastName,
+                        LastName : req.body.LastName,
+                        MiddleName : req.body.MiddleName,
+                        Email : req.body.Email,
+                        Mobile : req.body.Mobile,
+                        UserType : req.body.UserType,
+                        Status : req.body.Status,
+                        UpdatedDate : new Date(),
+                        UpdatedById:   req.body.UpdatedById 
                         }
-                } )
-            
-              
-                res.status(201).send(user)
+                    } )
+
+                res.status(201).send({message : '' , success : true  }) 
+            }
                
         }
         catch(err){
@@ -155,7 +174,8 @@ module.exports = {
         {   
             id = req.params.id
             let r = (Math.random() + 1).toString(36).substring(3);
-            const user = await User.updateOne({ _id:  id} ,   { $set :{   Password :  r }} )
+            const user = await User.updateOne({ _id:  id} ,   
+                { $set :{   Password :  '' , TemporaryPassword : r , IsTempPassword : true}} )
             res.status(201).send(user)
         }
         catch(err){
@@ -170,6 +190,7 @@ module.exports = {
                 { $set :{   
                     UserName : req.body.UserName,
                     Password : req.body.Password,
+                    IsTempPassword : false
                         }
                 } )
             

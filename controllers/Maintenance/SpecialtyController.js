@@ -71,14 +71,23 @@ module.exports = {
     },
     CreateSpecialty : async (req,res) => {
         try{
-
             var LatestSpecialty = await Specialty.find().limit(1).sort({ SpecialtyId: -1 })
             var Id = 1;
             if(LatestSpecialty.length > 0)
             {
                 Id = LatestSpecialty[0].SpecialtyId + 1;
             }
-            var specialty = new Specialty({
+
+            
+            var SpecialtyExist =  await Specialty.findOne({Code: req.body.Code })
+            if(SpecialtyExist != null)
+            {
+                
+                res.status(200).send({message : ['Specialty Already exist'] , success : false  })
+            }
+            else
+            {
+                var specialty = new Specialty({
                     SpecialtyId : Id,
                     Code : req.body.Code,
                     Name : req.body.Name,
@@ -91,7 +100,9 @@ module.exports = {
                     CreatedById: req.body.CreatedById,
                 })
                 specialty = await specialty.save()
-                res.status(201).send(specialty)
+                res.status(201).send({message : '' , success : true  })
+            }
+  
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -99,23 +110,26 @@ module.exports = {
     },
 
     UpdateSpecialty : async (req,res) => {
-  
         try{
-
-            const specialty = await Specialty.updateOne({ _id:  req.body.Id} , 
-                { $set :{   SpecialtyId : req.body.SpecialtyId,
-                            Code : req.body.Code,
-                            Name : req.body.Name,
-                            Category : req.body.Category,
-                            Description : req.body.Description,
-                            UpdatedDate : new Date(),
-                            UpdatedById:   req.body.UpdatedById 
-                        }
-                } )
-            
-              
-                res.status(201).send(specialty)
-               
+            var SpecialtyExist =  await Specialty.findOne({Code: req.body.Code })
+            if(SpecialtyExist != null && SpecialtyExist._id.toString() != req.body.Id ){
+                res.status(200).send({message : ['Specialty Already exist'] , success : false  })
+            }
+            else
+            {   
+                const specialty = await Specialty.updateOne({ _id:  req.body.Id} , 
+                    { $set :{   SpecialtyId : req.body.SpecialtyId,
+                                Code : req.body.Code,
+                                Name : req.body.Name,
+                                Category : req.body.Category,
+                                Description : req.body.Description,
+                                UpdatedDate : new Date(),
+                                UpdatedById:   req.body.UpdatedById 
+                            }
+                    } )
+                
+                res.status(201).send({message : '' , success : true  }) 
+            }  
         }
         catch(err){
             res.status(500).json({message : err.message})

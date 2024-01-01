@@ -17,8 +17,8 @@ module.exports = {
         try{
             console.log(req.params.id)
             const id = req.params.id;
-            var source = await Source.find({SourceId: id})
-            res.status(200).send(source[0])
+            var source = await Source.findOne({SourceId: id})
+            res.status(200).send(source)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -82,8 +82,14 @@ module.exports = {
             else{
                 sourceId = 1;
             }
-        
-            var source = new Source({
+
+            var SourceExist =  await Source.findOne({Code: req.body.Code })
+            if(SourceExist != null){
+                res.status(200).send({message : ['Source Already exist'] , success : false  })
+            }
+            else
+            {
+                var source = new Source({
                     SourceId : sourceId,
                     Code : req.body.Code,
                     Name : req.body.Name,
@@ -95,7 +101,8 @@ module.exports = {
                     CreatedById: req.body.CreatedById,
                 })
                 source = await source.save()
-                res.status(201).send(source)
+                res.status(201).send({message : '' , success : true  })
+            }
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -105,8 +112,14 @@ module.exports = {
     UpdateSource : async (req,res) => {
   
         try{
-           
-            const source = await Source.updateOne({ _id:  req.body.Id} , 
+            var SourceExist =  await Source.findOne({Code: req.body.Code })
+            if(SourceExist != null && SourceExist._id.toString() != req.body.Id )
+            { 
+                res.status(200).send({message : ['Source Already exist'] , success : false  })
+            }
+            else
+            {      
+                const source = await Source.updateOne({ _id:  req.body.Id} , 
                 { $set :{   SourceId : req.body.SourceId,
                             Code : req.body.Code,
                             Name : req.body.Name,
@@ -115,7 +128,9 @@ module.exports = {
                             UpdatedById:   req.body.UpdatedById 
                         }
                 } )
-                res.status(201).send(source)   
+                
+                res.status(201).send({message : '' , success : true  }) 
+            }
         }
         catch(err){
             res.status(500).json({message : err.message})

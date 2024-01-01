@@ -78,7 +78,13 @@ module.exports = {
             {
                 Id = LatestSystemType[0].SystemTypeId + 1;
             }
-            var systemtype = new SystemType({
+            var SystemTypeExist =  await SystemType.findOne({Code: req.body.Code })
+            if(SystemTypeExist != null){
+                res.status(200).send({message : ['System Type Already exist'] , success : false  })
+            }
+            else
+            {
+                var systemtype = new SystemType({
                     SystemTypeId : Id,
                     Code : req.body.Code,
                     Name : req.body.Name,
@@ -90,7 +96,11 @@ module.exports = {
                     CreatedById: req.body.CreatedById,
                 })
                 systemtype = await systemtype.save()
-                res.status(201).send(systemtype)
+
+                res.status(201).send({message : '' , success : true  })
+            }
+
+ 
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -100,20 +110,25 @@ module.exports = {
     UpdateSystemType : async (req,res) => {
   
         try{
+            var SystemTypeExist =  await SystemType.findOne({Code: req.body.Code })
 
-            const systemtype = await SystemType.updateOne({ _id:  req.body.Id} , 
-                { $set :{   SystemTypeId : req.body.SystemTypeId,
-                            Code : req.body.Code,
-                            Name : req.body.Name,
-                            Description : req.body.Description,
-                            UpdatedDate : new Date(),
-                            UpdatedById:   req.body.UpdatedById 
-                        }
-                } )
-            
-              
-                res.status(201).send(systemtype)
-               
+            if(SystemTypeExist != null && SystemTypeExist._id.toString() != req.body.Id )
+            {
+             res.status(200).send({message : ['SystemType Already exist'] , success : false  })
+            }
+            else
+            {    
+                const systemtype = await SystemType.updateOne({ _id:  req.body.Id} , 
+                    { $set :{   SystemTypeId : req.body.SystemTypeId,
+                                Code : req.body.Code,
+                                Name : req.body.Name,
+                                Description : req.body.Description,
+                                UpdatedDate : new Date(),
+                                UpdatedById:   req.body.UpdatedById 
+                            }
+                    } )
+                res.status(201).send({message : '' , success : true  }) 
+            }
         }
         catch(err){
             res.status(500).json({message : err.message})

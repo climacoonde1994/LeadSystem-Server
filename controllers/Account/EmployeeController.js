@@ -94,28 +94,35 @@ module.exports = {
                 Id = LatestEmployee[0].EmployeeId + 1;
             } 
 
-            
-            var employee = new Employee({
-                EmployeeId : Id,
-                FullName : req.body.FirstName +  ' ' + req.body.LastName,
-                FirstName : req.body.FirstName,
-                MiddleName : req.body.MiddleName,
-                LastName : req.body.LastName,
-                Suffix : req.body.Suffix,
-                Position : req.body.Position,
-                DepartmentId : req.body.DepartmentId,
-                Address1 : req.body.Address1,
-                Address2 : req.body.Address2,
-                Enabled : true,
-                CityId : req.body.CityId,
-                CountryId : req.body.CountryId,
-                Phone : req.body.Phone,
-                Email : req.body.Email,
-                CreatedDate : new Date(),
-                CreatedById: req.body.CreatedById,
-                })
-                employee = await employee.save()
-                res.status(201).send(employee)
+            var EmployeeExist =  await Employee.findOne({FirstName: req.body.FirstName } ,{LastName: req.body.LastName   })
+            if(EmployeeExist != null)
+            {
+                res.status(200).send({message : ['Employee Already exist'] , success : false  })
+            }
+            else
+            {
+                var employee = new Employee({
+                    EmployeeId : Id,
+                    FullName : req.body.FirstName +  ' ' + req.body.LastName,
+                    FirstName : req.body.FirstName,
+                    MiddleName : req.body.MiddleName,
+                    LastName : req.body.LastName,
+                    Suffix : req.body.Suffix,
+                    Position : req.body.Position,
+                    DepartmentId : req.body.DepartmentId,
+                    Address1 : req.body.Address1,
+                    Address2 : req.body.Address2,
+                    Enabled : true,
+                    CityId : req.body.CityId,
+                    CountryId : req.body.CountryId,
+                    Phone : req.body.Phone,
+                    Email : req.body.Email,
+                    CreatedDate : new Date(),
+                    CreatedById: req.body.CreatedById,
+                    })
+                    employee = await employee.save()
+                    res.status(201).send({message : '' , success : true  }) 
+            }
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -125,28 +132,38 @@ module.exports = {
     UpdateEmployee : async (req,res) => {
   
         try{
-            const employee = await Employee.updateOne({ _id:  req.body.Id} , 
-                { $set :{   
-                            FullName : req.body.FirstName +  ' ' + req.body.LastName,
-                            FirstName : req.body.FirstName,
-                            MiddleName : req.body.MiddleName,
-                            LastName : req.body.LastName,
-                            Suffix : req.body.Suffix,
-                            Position : req.body.Position,
-                            DepartmentId : req.body.DepartmentId,
-                            Address1 : req.body.Address1,
-                            Address2 : req.body.Address2,
-                            CityId : req.body.CityId,
-                            CountryId : req.body.CountryId,
-                            Phone : req.body.Phone,
-                            Email : req.body.Email,
-                            UpdatedDate : new Date(),
-                            UpdatedById:   req.body.UpdatedById 
-                        }
-                } )
+
+            var EmployeeExist =  await Employee.findOne({FirstName: req.body.FirstName } ,{LastName: req.body.LastName   })
+            if(EmployeeExist != null && EmployeeExist._id.toString() != req.body.Id ){
+                res.status(200).send({message : ['Employee  Already exist'] , success : false  })
+            }
+            else
+            {
+                
+                const employee = await Employee.updateOne({ _id:  req.body.Id} , 
+                    { $set :{   
+                                FullName : req.body.FirstName +  ' ' + req.body.LastName,
+                                FirstName : req.body.FirstName,
+                                MiddleName : req.body.MiddleName,
+                                LastName : req.body.LastName,
+                                Suffix : req.body.Suffix,
+                                Position : req.body.Position,
+                                DepartmentId : req.body.DepartmentId,
+                                Address1 : req.body.Address1,
+                                Address2 : req.body.Address2,
+                                CityId : req.body.CityId,
+                                CountryId : req.body.CountryId,
+                                Phone : req.body.Phone,
+                                Email : req.body.Email,
+                                UpdatedDate : new Date(),
+                                UpdatedById:   req.body.UpdatedById 
+                            }
+                    } )
+                    res.status(201).send({message : '' , success : true  }) 
+            }
             
               
-                res.status(201).send(employee)
+               
                
         }
         catch(err){

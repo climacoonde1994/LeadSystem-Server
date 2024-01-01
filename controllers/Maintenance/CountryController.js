@@ -77,43 +77,60 @@ module.exports = {
             {
                 Id = LatestCountry[0].CountryId + 1;
             }
-          
-    
-            var country = new Country({
-                    CountryId : Id,
-                    Code : req.body.Code,
-                    Name : req.body.Name,
-                    Description : req.body.Description,
-                    Enabled : true,
-                    Default : false,
-                    Description : req.body.Description,
-                    CreatedDate : new Date(),
-                    CreatedById: req.body.CreatedById,
+
+            var CountryExist =  await Country.findOne({Code: req.body.Code})
+            if(CountryExist != null){
+                res.status(200).send({message : ['Country Already exist'] , success : false  })
+            }
+            else
+            { 
+                var country = new Country({
+                CountryId : Id,
+                Code : req.body.Code,
+                Name : req.body.Name,
+                Description : req.body.Description,
+                Enabled : true,
+                Default : false,
+                Description : req.body.Description,
+                CreatedDate : new Date(),
+                CreatedById: req.body.CreatedById,
                 })
                 country = await country.save()
-                res.status(201).send(country)
+                res.status(201).send({message : '' , success : true  })
+
+            }
+             
+           
         }
         catch(err){
             res.status(500).json({message : err.message})
         }
     },
-
+ 
     UpdateCountry : async (req,res) => {
   
         try{
 
-            const country = await Country.updateOne({ _id:  req.body.Id} , 
-                { $set :{   CountryId : req.body.CountryId,
-                            Code : req.body.Code,
-                            Name : req.body.Name,
-                            Description : req.body.Description,
-                            UpdatedDate : new Date(),
-                            UpdatedById:   req.body.UpdatedById 
-                        }
-                } )
+            var CountryExist =  await Country.findOne({Code: req.body.Code})
+            if(CountryExist != null && CountryExist._id.toString() != req.body.Id ){
+                res.status(200).send({message : ['Country Already exist'] , success : false  })
+            }
+            else
+            {
+                const country = await Country.updateOne({ _id:  req.body.Id} , 
+                    { $set :{   CountryId : req.body.CountryId,
+                                Code : req.body.Code,
+                                Name : req.body.Name,
+                                Description : req.body.Description,
+                                UpdatedDate : new Date(),
+                                UpdatedById:   req.body.UpdatedById 
+                            }
+                    } )
+                
+                  
+                res.status(201).send({message : '' , success : true  })
+            }
             
-              
-                res.status(201).send(country)
                
         }
         catch(err){

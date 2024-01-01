@@ -103,26 +103,36 @@ module.exports = {
             if(LatestClient.length > 0)
             {
                 Id = LatestClient[0].ClientId + 1;
-            } 
-            var client = new Client({
-                ClientId : Id,
-                Code : req.body.Code,
-                Name : req.body.Name,
-                Description : req.body.Description,
-                Address1 : req.body.Address1,
-                Address2 : req.body.Address2,
-                CityId : req.body.CityId,
-                CountryId : req.body.CountryId,
-                Phone : req.body.Phone,
-                Enabled : true,
-                FAX : req.body.FAX,
-                URL : req.body.URL,
-                GMTOffset : req.body.GMTOffset,
-                CreatedDate : new Date(),
-                CreatedById: req.body.CreatedById,
-                })
-                client = await client.save()
-                res.status(201).send(client)
+            }
+            
+            var Client =  await Client.findOne({Code: req.body.Code })
+            if(Client != null)
+            {
+                
+                res.status(200).send({message : ['Client Already exist'] , success : false  })
+            }
+            else
+            {
+                var client = new Client({
+                    ClientId : Id,
+                    Code : req.body.Code,
+                    Name : req.body.Name,
+                    Description : req.body.Description,
+                    Address1 : req.body.Address1,
+                    Address2 : req.body.Address2,
+                    CityId : req.body.CityId,
+                    CountryId : req.body.CountryId,
+                    Phone : req.body.Phone,
+                    Enabled : true,
+                    FAX : req.body.FAX,
+                    URL : req.body.URL,
+                    GMTOffset : req.body.GMTOffset,
+                    CreatedDate : new Date(),
+                    CreatedById: req.body.CreatedById,
+                    })
+                    client = await client.save()
+                    res.status(201).send({message : '' , success : true  }) 
+            }
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -133,27 +143,32 @@ module.exports = {
   
         try{
 
-            const client = await Client.updateOne({ _id:  req.body.Id} , 
-                { $set :{    ClientId : req.body.ClientId,
-                            Code : req.body.Code,
-                            Name : req.body.Name,
-                            Description : req.body.Description,
-                            Address1 : req.body.Address1,
-                            Address2 : req.body.Address2,
-                            CityId : req.body.CityId,
-                            CountryId : req.body.CountryId,
-                            Phone : req.body.Phone,
-                            FAX : req.body.FAX,
-                            URL : req.body.URL,
-                            GMTOffset : req.body.GMTOffset,
-                            UpdatedDate : new Date(),
-                            UpdatedById:   req.body.UpdatedById 
-                        }
-                } )
-            
-              
-                res.status(201).send(client)
-               
+            var ClientExist =  await Client.findOne({Code: req.body.Code })
+            if(ClientExist != null && ClientExist._id.toString() != req.body.Id ){
+                res.status(200).send({message : ['Client Already exist'] , success : false  })
+            }
+            else
+            {   
+                const client = await Client.updateOne({ _id:  req.body.Id} , 
+                    { $set :{    ClientId : req.body.ClientId,
+                                Code : req.body.Code,
+                                Name : req.body.Name,
+                                Description : req.body.Description,
+                                Address1 : req.body.Address1,
+                                Address2 : req.body.Address2,
+                                CityId : req.body.CityId,
+                                CountryId : req.body.CountryId,
+                                Phone : req.body.Phone,
+                                FAX : req.body.FAX,
+                                URL : req.body.URL,
+                                GMTOffset : req.body.GMTOffset,
+                                UpdatedDate : new Date(),
+                                UpdatedById:   req.body.UpdatedById 
+                            }
+                    } )
+                res.status(201).send({message : '' , success : true  }) 
+            }
+
         }
         catch(err){
             res.status(500).json({message : err.message})

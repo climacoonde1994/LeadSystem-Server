@@ -16,8 +16,8 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const department = await Department.find({DepartmentId: id})
-            res.status(200).send(department[0])
+            const department = await Department.findOne({DepartmentId: id})
+            res.status(200).send(department)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -79,7 +79,13 @@ module.exports = {
                 Id = LatestDepartment[0].DepartmentId + 1;
             }
 
-            var department = new Department({
+            var DepartmentExist =  await Department.findOne({Code: req.body.Code })
+            if(DepartmentExist != null){
+                res.status(200).send({message : ['Department Already exist'] , success : false  })
+            }
+            else
+            {
+                var department = new Department({
                     DepartmentId : Id,
                     Code : req.body.Code,
                     Name : req.body.Name,
@@ -91,7 +97,8 @@ module.exports = {
                     CreatedById: req.body.CreatedById,
                 })
                 department = await department.save()
-                res.status(201).send(department)
+                res.status(201).send({message : '' , success : true  })
+            }
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -101,20 +108,26 @@ module.exports = {
     UpdateDepartment : async (req,res) => {
   
         try{
-
-            const department = await Department.updateOne({ _id:  req.body.Id} , 
-                { $set :{   DepartmentId : req.body.DepartmentId,
-                            Code : req.body.Code,
-                            Name : req.body.Name,
-                            Description : req.body.Description,
-                            UpdatedDate : new Date(),
-                            UpdatedById:   req.body.UpdatedById 
-                        }
-                } )
+            var DepartmentExist =  await Department.findOne({Code: req.body.Code })
+            if(DepartmentExist != null && DepartmentExist._id.toString() != req.body.Id )
+            {
+                res.status(200).send({message : ['Department Already exist'] , success : false  })
+            }
+            else
+            { 
+                const department = await Department.updateOne({ _id:  req.body.Id} , 
+                    { $set :{   DepartmentId : req.body.DepartmentId,
+                                Code : req.body.Code,
+                                Name : req.body.Name,
+                                Description : req.body.Description,
+                                UpdatedDate : new Date(),
+                                UpdatedById:   req.body.UpdatedById 
+                            }
+                    } )
+                res.status(201).send({message : '' , success : true  })
             
-              
-                res.status(201).send(department)
-               
+            }
+  
         }
         catch(err){
             res.status(500).json({message : err.message})

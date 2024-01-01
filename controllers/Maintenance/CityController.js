@@ -16,8 +16,8 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const city = await City.find({CityId: id})
-            res.status(200).send(city[0])
+            const city = await City.findOne({CityId: id})
+            res.status(200).send(city)
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -65,7 +65,6 @@ module.exports = {
         }
         catch(err){
             res.status(500).json({message : err.message})
-    
         }
 
     },
@@ -78,20 +77,29 @@ module.exports = {
             {
                 Id = LatestCity[0].CityId + 1;
             }
-            var city = new City({
-                CityId : Id,
-                Code : req.body.Code,
-                Name : req.body.Name,
-                ZIP : req.body.ZIP,
-                CountryId : req.body.CountryId,
-                Enabled : true,
-                Default : false,
-                Description : req.body.Description,
-                CreatedDate : new Date(),
-                CreatedById: req.body.CreatedById,
-                })
-                city = await city.save()
-                res.status(201).send(city)
+
+            var CityExist =  await City.findOne({Code: req.body.Code })
+            if(CityExist != null){
+                res.status(200).send({message : ['City Already exist'] , success : false  })
+            }
+            else
+            {
+                var city = new City({
+                    CityId : Id,
+                    Code : req.body.Code,
+                    Name : req.body.Name,
+                    ZIP : req.body.ZIP,
+                    CountryId : req.body.CountryId,
+                    Enabled : true,
+                    Default : false,
+                    Description : req.body.Description,
+                    CreatedDate : new Date(),
+                    CreatedById: req.body.CreatedById,
+                    })
+                    city = await city.save()
+                    res.status(201).send({message : '' , success : true  })
+            }
+            
         }
         catch(err){
             res.status(500).json({message : err.message})
@@ -101,22 +109,25 @@ module.exports = {
     UpdateCity : async (req,res) => {
   
         try{
-
-            const city = await City.updateOne({ _id:  req.body.Id} , 
-                { $set :{   CityId : req.body.CityId,
-                            Code : req.body.Code,
-                            Name : req.body.Name,
-                            ZIP : req.body.ZIP,
-                            CountryId : req.body.CountryId,
-                            Description : req.body.Description,
-                            UpdatedDate : new Date(),
-                            UpdatedById:   req.body.UpdatedById 
-                        }
-                } )
-            
-              
-                res.status(201).send(city)
-               
+            var CityExist =  await City.findOne({Code: req.body.Code})
+            if(CityExist != null && CityExist._id.toString() != req.body.Id ){
+                res.status(200).send({message : ['City Already exist'] , success : false  })
+            }
+            else
+            {
+                const city = await City.updateOne({ _id:  req.body.Id} , 
+                    { $set :{   CityId : req.body.CityId,
+                                Code : req.body.Code,
+                                Name : req.body.Name,
+                                ZIP : req.body.ZIP,
+                                CountryId : req.body.CountryId,
+                                Description : req.body.Description,
+                                UpdatedDate : new Date(),
+                                UpdatedById:   req.body.UpdatedById 
+                            }
+                    } )
+                    res.status(201).send({message : '' , success : true  })
+            }
         }
         catch(err){
             res.status(500).json({message : err.message})

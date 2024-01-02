@@ -1,6 +1,6 @@
 
 const User = require('../../models/Account/user')
-
+const bcrypt =  require("bcrypt")
  
 module.exports = {
 
@@ -186,10 +186,11 @@ module.exports = {
     ChangePassword : async (req,res) => {
         try 
         {   
+            const password = await bcrypt.hash(req.body.Password, 10);
             const user = await User.updateOne({ _id:  req.body.Id} , 
                 { $set :{   
                     UserName : req.body.UserName,
-                    Password : req.body.Password,
+                    Password : password,
                     IsTempPassword : false
                         }
                 } )

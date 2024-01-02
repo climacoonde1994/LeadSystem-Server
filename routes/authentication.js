@@ -82,13 +82,15 @@ router.delete("/:id", getUser ,async(req,res) => {
 //log in user
 router.post("/Login",async (req,res) => {
   try
-    {  const username = req.body.username
-       const password = req.body.password
-        var user =  await User.findOne({UserName : username , Enabled : true})
+    { 
 
-        if(user != null && ((user.IsTempPassword &&  user.TemporaryPassword == password) || (!user.IsTempPassword &&  user.Password == password)))
+        const username = req.body.username
+        const password = await bcrypt.hash(req.body.password, 10);
+        var user =  await User.findOne({UserName : username , Enabled : true})
+        const match = await bcrypt.compare(req.body.password, user.Password);
+        if(user != null && ((user.IsTempPassword &&  user.TemporaryPassword == password) || match))
         {
-         
+
            
             var employee =  await Employee.findOne({FirstName : user.FirstName,LastName : user.LastName})
             var response = {

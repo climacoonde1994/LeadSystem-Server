@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
     FirstName : {type : String , required : true},
     MiddleName : {type : String , required : false},
     UserType : {type : String , required : false},
+    UserTypeId : {type : String , required : false},
     LastName : {type : String , required : true},
     Mobile : {type : String , required : false},
     Status : {type : String , required : false},

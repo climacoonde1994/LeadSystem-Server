@@ -1,5 +1,8 @@
 
 const UserType = require('../../models/Maintenance/usertype')
+const Menu = require('../../models/Maintenance/menu')
+const Permission = require('../../models/Maintenance/permission')
+
 module.exports = {
 
 
@@ -16,7 +19,7 @@ module.exports = {
     getById : async (req,res) => {
         try{
             const id = req.params.id;
-            const usertype = await UserType.find({UserTypeId: id})
+            const usertype = await UserType.find({_id: id})
             res.status(200).send(usertype[0])
         }
         catch(err){
@@ -71,7 +74,9 @@ module.exports = {
     },
     CreateUserType : async (req,res) => {
         try{
+            const Menus = await Menu.find()
             var LatestUserType = await UserType.find().limit(1).sort({ UserTypeId: -1 })
+
             var Id = 1;
             if(LatestUserType.length > 0)
             {
@@ -80,6 +85,7 @@ module.exports = {
 
             
             var UserTypeExist =  await UserType.findOne({Code: req.body.Code })
+
             if(UserTypeExist != null)
             {
                 res.status(200).send({message : ['UserType Already exist'] , success : false  })
@@ -98,6 +104,23 @@ module.exports = {
                 CreatedById: req.body.CreatedById,
                 })
                 usertype = await usertype.save()
+
+                for (const menu of Menus) {
+                   
+                    var permission = new Permission({
+                        MenuId : menu._id,
+                        UserTypeId : usertype._id,
+                        View : false,
+                        Add :  false,
+                        Edit :  false,
+                        Delete : false,
+                        })
+
+                        permission = await permission.save()
+                }
+
+
+
                 res.status(201).send({message : '' , success : true  })
 
             }
@@ -134,6 +157,8 @@ module.exports = {
             res.status(500).json({message : err.message})
         }
     },
+
+ 
     DeleteUserType : async (req,res) => {
         try {   
             id = req.params.id

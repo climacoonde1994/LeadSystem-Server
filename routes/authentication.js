@@ -5,6 +5,7 @@ const router = express.Router()
 const jwt = require("jsonwebtoken")
 const User = require('../models/Account/user')
 const Employee = require('../models/Account/employee')
+const Permission = require('../models/Maintenance/permission')
  
 
 router.get("/", async (req,res) => {
@@ -93,9 +94,11 @@ router.post("/Login",async (req,res) => {
 
            
             var employee =  await Employee.findOne({FirstName : user.FirstName,LastName : user.LastName})
+            
+            var permission = await Permission.find({UserTypeId: user.UserTypeId})
             var response = {
                 succeeded : true,
-                data : {User : user ,Employee :  employee},
+                data : {User : user ,Employee :  employee ,Permission : permission },
                 token : jwt.sign(JSON.stringify(user), process.env.TOKEN)
 
             }

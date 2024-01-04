@@ -62,6 +62,9 @@ const specialtyRoute = require('./routes/maintenance/specialtyroute')
 const systemtypeRoute = require('./routes/maintenance/systemtyperoute')
 const usertypeRoute = require('./routes/maintenance/usertyperoute')
 const contactRoute = require('./routes/maintenance/contactroute')
+const menuRoute = require('./routes/maintenance/menuroute')
+const permissionRoute = require('./routes/maintenance/permissionroute')
+
 
 //maintenance end points
 app.use('/api/city' , cityRoute) 
@@ -72,7 +75,8 @@ app.use('/api/specialty', specialtyRoute)
 app.use('/api/systemtype', systemtypeRoute)
 app.use('/api/usertype' , usertypeRoute)
 app.use('/api/contact' , contactRoute) 
-
+app.use('/api/menu' , menuRoute)
+app.use('/api/permission' , permissionRoute)
 //lead end points
 app.use('/api/client' , clientRoute) 
 app.use('/api/comment' , commentRoute)

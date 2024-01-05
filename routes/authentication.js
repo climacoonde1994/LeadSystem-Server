@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken")
 const User = require('../models/Account/user')
 const Employee = require('../models/Account/employee')
 const Permission = require('../models/Maintenance/permission')
+const Menu = require('../models/Maintenance/menu')
  
 
 router.get("/", async (req,res) => {
@@ -87,15 +88,23 @@ router.post("/Login",async (req,res) => {
 
         const username = req.body.username
         const password = await bcrypt.hash(req.body.password, 10);
+        const menus = await Menu.find()
+        
         var user =  await User.findOne({UserName : username , Enabled : true})
         const match = await bcrypt.compare(req.body.password, user.Password);
         if(user != null && ((user.IsTempPassword &&  user.TemporaryPassword == password) || match))
         {
 
-           
-            var employee =  await Employee.findOne({FirstName : user.FirstName,LastName : user.LastName})
-            
+            var employee =  await Employee.findOne({FirstName : user.FirstName,LastName : user.LastName})     
             var permission = await Permission.find({UserTypeId: user.UserTypeId})
+            for (var i =0;i<permission.length;i++){
+                permission[i].Name = menus.find(x => x._id == permission[i].MenuId).Name; 
+            }
+
+            permission = permission.sort((a, b) => a.Name.localeCompare(b.Name));
+             
+        
+            console.log(permission)
             var response = {
                 succeeded : true,
                 data : {User : user ,Employee :  employee ,Permission : permission },
@@ -113,8 +122,6 @@ router.post("/Login",async (req,res) => {
     {
         res.status(400).json({message : err.message})
     }
-
-
 })
 
 async function getUser(req , res , next){
@@ -133,9 +140,6 @@ async function getUser(req , res , next){
     res.user = user
     next()
 }
-
-
-
 
 module.exports = router
 

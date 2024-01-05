@@ -95,6 +95,7 @@ module.exports = {
                     MiddleName : req.body.MiddleName,
                     Email : req.body.Email,
                     Enabled : true,
+                    UserTypeId : req.body.UserTypeId,
                     Mobile : req.body.Mobile,
                     UserType : req.body.UserType,
                     Status : req.body.Status,
@@ -130,6 +131,7 @@ module.exports = {
                         Email : req.body.Email,
                         Mobile : req.body.Mobile,
                         UserType : req.body.UserType,
+                        UserTypeId : req.body.UserTypeId,
                         Status : req.body.Status,
                         UpdatedDate : new Date(),
                         UpdatedById:   req.body.UpdatedById 

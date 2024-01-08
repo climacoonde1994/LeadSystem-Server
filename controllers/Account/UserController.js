@@ -112,9 +112,7 @@ module.exports = {
     },
 
     UpdateUser : async (req,res) => {
-  
         try{
-
             var UserExist =  await User.findOne({UserName: req.body.UserName })
             if(UserExist != null && UserExist._id.toString() != req.body.Id ){
                 res.status(200).send({message : ['User Name Already exist'] , success : false  })

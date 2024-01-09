@@ -191,6 +191,7 @@ module.exports = {
                 { $set :{   
                     UserName : req.body.UserName,
                     Password : password,
+                    TemporaryPassword : "",
                     IsTempPassword : false
                         }
                 } )

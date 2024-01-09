@@ -205,7 +205,7 @@ module.exports = {
     DeletePermission : async (req,res) => {
         try {   
             id = req.params.id
-            const response = await Permission.deleteOne({_id:  req.params.id})
+            const response = await Permission.deleteOne({MenuId:  req.params.id})
             res.status(201).send(response)
         }
         catch(err){

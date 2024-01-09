@@ -87,11 +87,15 @@ router.post("/Login",async (req,res) => {
     { 
 
         const username = req.body.username
-        const password = await bcrypt.hash(req.body.password, 10);
+        const password =  req.body.password;
         const menus = await Menu.find()
-        
         var user =  await User.findOne({UserName : username , Enabled : true})
-        const match = await bcrypt.compare(req.body.password, user.Password);
+        var match = false;
+        if(user != null)
+        {
+            match = await bcrypt.compare(req.body.password, user.Password);
+        }
+      
         if(user != null && ((user.IsTempPassword &&  user.TemporaryPassword == password) || match))
         {
 
@@ -102,9 +106,6 @@ router.post("/Login",async (req,res) => {
             }
 
             permission = permission.sort((a, b) => a.Name.localeCompare(b.Name));
-             
-        
-            console.log(permission)
             var response = {
                 succeeded : true,
                 data : {User : user ,Employee :  employee ,Permission : permission },
@@ -114,7 +115,7 @@ router.post("/Login",async (req,res) => {
             res.json({response})
         }
         else{
-            res.status(400).json({message : "Username/Password doesnt match"})
+            res.status(400).json({message : "Username/Password doesn't match."})
         }
        
     }
